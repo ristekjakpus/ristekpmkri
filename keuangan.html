@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keuangan - JAKPUSSIDATU PMKRI Jakarta Pusat</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --pmkri-blue: #3498DB;
+            --pmkri-red: #E74C3C;
+            --pmkri-yellow: #F1C40F;
+            --pmkri-orange: #E67E22;
+            --pmkri-green: #2ECC71;
+            --pmkri-light: #F9F9F9;
+            --pmkri-dark: #2C3E50;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: none;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            font-weight: 600;
+            border-radius: 10px 10px 0 0 !important;
+        }
+
+        .btn-pmkri {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-pmkri:hover {
+            background: linear-gradient(90deg, #2C81BA 0%, #2471A3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-yellow {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-yellow:hover {
+            background: linear-gradient(90deg, #F39C12 0%, #E67E22 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--pmkri-blue);
+        }
+
+        .nav-pills .nav-link {
+            color: var(--pmkri-dark);
+        }
+
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        .file-upload-container {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-container:hover {
+            border-color: var(--pmkri-blue);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .file-preview {
+            max-width: 100px;
+            max-height: 100px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .income-bg {
+            background-color: rgba(46, 204, 113, 0.1);
+        }
+
+        .expense-bg {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .report-card {
+            transition: all 0.3s;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .proof-badge {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .proof-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .action-buttons .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 d-md-block sidebar bg-white" style="min-height: 100vh; box-shadow: 3px 0 15px rgba(0,0,0,0.05);">
+                <div class="pt-4">
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="../dashboard/dashboard.html">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link active" href="../keuangan/keuangan.html">
+                                <i class="fas fa-file-invoice-dollar me-2"></i> Keuangan
+                            </a>
+                        </li>
+                        <!-- Menu lainnya bisa ditambahkan di sini -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 col-md-9 px-4 py-4 main-content">
+                <h2 class="mb-4"><i class="fas fa-file-invoice-dollar me-2"></i> Manajemen Keuangan</h2>
+
+                <ul class="nav nav-pills mb-4" id="financeTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pemasukan-tab" data-bs-toggle="pill" data-bs-target="#pemasukan" type="button" role="tab">Pemasukan</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pengeluaran-tab" data-bs-toggle="pill" data-bs-target="#pengeluaran" type="button" role="tab">Pengeluaran</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="laporan-tab" data-bs-toggle="pill" data-bs-target="#laporan" type="button" role="tab">Laporan</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="financeTabsContent">
+                    <!-- Tab Pemasukan -->
+                    <div class="tab-pane fade show active" id="pemasukan" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Tambah Pemasukan</h5>
+                                        <button class="btn btn-sm btn-yellow" id="showIncomeForm"><i class="fas fa-plus me-1"></i> Tambah Data</button>
+                                    </div>
+                                    <div class="card-body" id="incomeFormContainer" style="display: none;">
+                                        <form id="incomeForm">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="incomeDate" class="form-label">Tanggal</label>
+                                                    <input type="date" class="form-control" id="incomeDate" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="incomeAmount" class="form-label">Jumlah (Rp)</label>
+                                                    <input type="number" class="form-control" id="incomeAmount" required>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="incomeSource" class="form-label">Sumber Pemasukan</label>
+                                                <select class="form-select" id="incomeSource" required>
+                                                    <option value="" selected disabled>Pilih sumber</option>
+                                                    <option value="iuran">Iuran Anggota</option>
+                                                    <option value="donasi">Donasi</option>
+                                                    <option value="sponsor">Sponsor</option>
+                                                    <option value="kegiatan">Kegiatan</option>
+                                                    <option value="lainnya">Lainnya</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="incomeDescription" class="form-label">Keterangan</label>
+                                                <textarea class="form-control" id="incomeDescription" rows="2"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Upload Bukti</label>
+                                                <div class="file-upload-container" id="incomeFileUpload">
+                                                    <i class="fas fa-cloud-upload-alt fa-3x mb-2" style="color: var(--pmkri-blue);"></i>
+                                                    <p>Seret file ke sini atau klik untuk memilih</p>
+                                                    <input type="file" id="incomeFileInput" style="display: none;" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx">
+                                                    <div id="incomeFilePreview" class="mt-2"></div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button type="button" class="btn btn-outline-secondary me-2" id="cancelIncomeForm">Batal</button>
+                                                <button type="submit" class="btn btn-pmkri">Simpan Pemasukan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Statistik Pemasukan</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="incomeChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Daftar Pemasukan</h5>
+                                <div class="input-group" style="width: 300px;">
+                                    <input type="text" class="form-control" placeholder="Cari pemasukan..." id="incomeSearch">
+                                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Tanggal</th>
+                                                <th>Jumlah</th>
+                                                <th>Sumber</th>
+                                                <th>Keterangan</th>
+                                                <th>Bukti</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="incomeTableBody">
+                                            <!-- Data akan diisi oleh JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation" class="mt-3">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Pengeluaran -->
+                    <div class="tab-pane fade" id="pengeluaran" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Tambah Pengeluaran</h5>
+                                        <button class="btn btn-sm btn-yellow" id="showExpenseForm"><i class="fas fa-plus me-1"></i> Tambah Data</button>
+                                    </div>
+                                    <div class="card-body" id="expenseFormContainer" style="display: none;">
+                                        <form id="expenseForm">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="expenseDate" class="form-label">Tanggal</label>
+                                                    <input type="date" class="form-control" id="expenseDate" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="expenseAmount" class="form-label">Jumlah (Rp)</label>
+                                                    <input type="number" class="form-control" id="expenseAmount" required>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="expenseCategory" class="form-label">Kategori Pengeluaran</label>
+                                                <select class="form-select" id="expenseCategory" required>
+                                                    <option value="" selected disabled>Pilih kategori</option>
+                                                    <option value="kegiatan">Kegiatan</option>
+                                                    <option value="administrasi">Administrasi</option>
+                                                    <option value="alat">Peralatan</option>
+                                                    <option value="transportasi">Transportasi</option>
+                                                    <option value="lainnya">Lainnya</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="expenseDescription" class="form-label">Keterangan</label>
+                                                <textarea class="form-control" id="expenseDescription" rows="2"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Upload Bukti</label>
+                                                <div class="file-upload-container" id="expenseFileUpload">
+                                                    <i class="fas fa-cloud-upload-alt fa-3x mb-2" style="color: var(--pmkri-blue);"></i>
+                                                    <p>Seret file ke sini atau klik untuk memilih</p>
+                                                    <input type="file" id="expenseFileInput" style="display: none;" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx">
+                                                    <div id="expenseFilePreview" class="mt-2"></div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <button type="button" class="btn btn-outline-secondary me-2" id="cancelExpenseForm">Batal</button>
+                                                <button type="submit" class="btn btn-pmkri">Simpan Pengeluaran</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Statistik Pengeluaran</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="expenseChart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Daftar Pengeluaran</h5>
+                                <div class="input-group" style="width: 300px;">
+                                    <input type="text" class="form-control" placeholder="Cari pengeluaran..." id="expenseSearch">
+                                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Tanggal</th>
+                                                <th>Jumlah</th>
+                                                <th>Kategori</th>
+                                                <th>Keterangan</th>
+                                                <th>Bukti</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="expenseTableBody">
+                                            <!-- Data akan diisi oleh JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation" class="mt-3">
+                                    <ul class="pagination justify-content-end">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Laporan -->
+                    <div class="tab-pane fade" id="laporan" role="tabpanel">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card report-card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Laporan Pemasukan</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="incomeReportChart"></canvas>
+                                        </div>
+                                        <div class="mt-4">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <button class="btn btn-outline-primary btn-sm" id="income3Months">3 Bulan</button>
+                                                <button class="btn btn-outline-primary btn-sm" id="income6Months">6 Bulan</button>
+                                                <button class="btn btn-outline-primary btn-sm" id="income8Months">8 Bulan</button>
+                                                <button class="btn btn-pmkri btn-sm" id="income1Year">1 Tahun</button>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <button class="btn btn-yellow btn-sm" id="downloadIncomeReport"><i class="fas fa-download me-2"></i>Unduh Laporan</button>
+                                                <button class="btn btn-yellow btn-sm" id="printIncomeReport"><i class="fas fa-print me-2"></i>Cetak Laporan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card report-card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Laporan Pengeluaran</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="expenseReportChart"></canvas>
+                                        </div>
+                                        <div class="mt-4">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <button class="btn btn-outline-primary btn-sm" id="expense3Months">3 Bulan</button>
+                                                <button class="btn btn-outline-primary btn-sm" id="expense6Months">6 Bulan</button>
+                                                <button class="btn btn-outline-primary btn-sm" id="expense8Months">8 Bulan</button>
+                                                <button class="btn btn-pmkri btn-sm" id="expense1Year">1 Tahun</button>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <button class="btn btn-yellow btn-sm" id="downloadExpenseReport"><i class="fas fa-download me-2"></i>Unduh Laporan</button>
+                                                <button class="btn btn-yellow btn-sm" id="printExpenseReport"><i class="fas fa-print me-2"></i>Cetak Laporan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Laporan Keuangan Tahunan</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="table-primary">
+                                            <tr>
+                                                <th rowspan="2">Periode</th>
+                                                <th colspan="2" class="text-center">Pemasukan</th>
+                                                <th colspan="2" class="text-center">Pengeluaran</th>
+                                                <th rowspan="2">Saldo</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Jumlah</th>
+                                                <th>Persentase</th>
+                                                <th>Jumlah</th>
+                                                <th>Persentase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>3 Bulan (Jan-Mar)</td>
+                                                <td>Rp 5.250.000</td>
+                                                <td>35%</td>
+                                                <td>Rp 3.800.000</td>
+                                                <td>38%</td>
+                                                <td>Rp 1.450.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>6 Bulan (Jan-Jun)</td>
+                                                <td>Rp 8.750.000</td>
+                                                <td>58%</td>
+                                                <td>Rp 6.200.000</td>
+                                                <td>62%</td>
+                                                <td>Rp 2.550.000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>8 Bulan (Jan-Agu)</td>
+                                                <td>Rp 12.500.000</td>
+                                                <td>83%</td>
+                                                <td>Rp 8.900.000</td>
+                                                <td>89%</td>
+                                                <td>Rp 3.600.000</td>
+                                            </tr>
+                                            <tr class="table-success fw-bold">
+                                                <td>1 Tahun (Jan-Des)</td>
+                                                <td>Rp 15.000.000</td>
+                                                <td>100%</td>
+                                                <td>Rp 10.000.000</td>
+                                                <td>100%</td>
+                                                <td>Rp 5.000.000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3 text-end">
+                                    <button class="btn btn-yellow me-2" id="exportExcel"><i class="fas fa-file-excel me-2"></i>Export Excel</button>
+                                    <button class="btn btn-yellow" id="exportPDF"><i class="fas fa-file-pdf me-2"></i>Export PDF</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk melihat bukti -->
+    <div class="modal fade" id="proofModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bukti Transaksi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="" id="proofImage" class="img-fluid" style="max-height: 70vh; display: none;">
+                    <iframe id="proofDocument" style="width: 100%; height: 70vh; display: none;"></iframe>
+                    <div id="noProof" class="text-muted py-5">
+                        <i class="fas fa-file-alt fa-5x mb-3"></i>
+                        <p>Tidak ada bukti yang tersedia</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-pmkri" id="downloadProof"><i class="fas fa-download me-2"></i>Unduh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk edit data -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalTitle">Edit Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="editId">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editDate" class="form-label">Tanggal</label>
+                                <input type="date" class="form-control" id="editDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editAmount" class="form-label">Jumlah (Rp)</label>
+                                <input type="number" class="form-control" id="editAmount" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCategory" class="form-label" id="editCategoryLabel">Kategori</label>
+                            <select class="form-select" id="editCategory" required>
+                                <!-- Diisi oleh JavaScript -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDescription" class="form-label">Keterangan</label>
+                            <textarea class="form-control" id="editDescription" rows="2"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Bukti Saat Ini</label>
+                            <div id="currentProof"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Upload Bukti Baru (Opsional)</label>
+                            <div class="file-upload-container" id="editFileUpload">
+                                <i class="fas fa-cloud-upload-alt fa-3x mb-2" style="color: var(--pmkri-blue);"></i>
+                                <p>Seret file ke sini atau klik untuk memilih</p>
+                                <input type="file" id="editFileInput" style="display: none;" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx">
+                                <div id="editFilePreview" class="mt-2"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-pmkri" id="saveEdit">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Data contoh untuk simulasi
+        const incomeData = [
+            { id: 1, date: '2025-01-15', amount: 1250000, source: 'iuran', description: 'Iuran bulan Januari', proof: 'iuran_januari.jpg', proofType: 'image' },
+            { id: 2, date: '2025-01-20', amount: 500000, source: 'donasi', description: 'Donasi dari alumni', proof: 'donasi_alumni.pdf', proofType: 'pdf' },
+            { id: 3, date: '2025-02-05', amount: 2000000, source: 'sponsor', description: 'Sponsor kegiatan seminar', proof: 'sponsor_seminar.xlsx', proofType: 'excel' }
+        ];
+
+        const expenseData = [
+            { id: 1, date: '2025-01-10', amount: 750000, category: 'kegiatan', description: 'Pembelian bahan seminar', proof: 'bahan_seminar.jpg', proofType: 'image' },
+            { id: 2, date: '2025-01-18', amount: 350000, category: 'transportasi', description: 'Transportasi panitia', proof: 'transport_panitia.pdf', proofType: 'pdf' },
+            { id: 3, date: '2025-01-25', amount: 1200000, category: 'alat', description: 'Pembelian sound system', proof: 'sound_system.xlsx', proofType: 'excel' }
+        ];
+
+        // Inisialisasi saat dokumen siap
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tampilkan data pemasukan dan pengeluaran
+            renderIncomeTable();
+            renderExpenseTable();
+
+            // Toggle form pemasukan
+            document.getElementById('showIncomeForm').addEventListener('click', function() {
+                document.getElementById('incomeFormContainer').style.display = 'block';
+                this.style.display = 'none';
+            });
+
+            document.getElementById('cancelIncomeForm').addEventListener('click', function() {
+                document.getElementById('incomeFormContainer').style.display = 'none';
+                document.getElementById('showIncomeForm').style.display = 'block';
+                document.getElementById('incomeForm').reset();
+                document.getElementById('incomeFilePreview').innerHTML = '';
+            });
+
+            // Toggle form pengeluaran
+            document.getElementById('showExpenseForm').addEventListener('click', function() {
+                document.getElementById('expenseFormContainer').style.display = 'block';
+                this.style.display = 'none';
+            });
+
+            document.getElementById('cancelExpenseForm').addEventListener('click', function() {
+                document.getElementById('expenseFormContainer').style.display = 'none';
+                document.getElementById('showExpenseForm').style.display = 'block';
+                document.getElementById('expenseForm').reset();
+                document.getElementById('expenseFilePreview').innerHTML = '';
+            });
+
+            // File upload functionality
+            setupFileUpload('income');
+            setupFileUpload('expense');
+            setupFileUpload('edit');
+
+            // Form submission
+            document.getElementById('incomeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addIncome();
+            });
+
+            document.getElementById('expenseForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addExpense();
+            });
+
+            // Modal bukti
+            const proofModal = new bootstrap.Modal(document.getElementById('proofModal'));
+            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+
+            // Download bukti
+            document.getElementById('downloadProof').addEventListener('click', function() {
+                const proofType = this.getAttribute('data-proof-type');
+                const proofName = this.getAttribute('data-proof-name');
+                
+                if (proofType && proofName) {
+                    // Dalam aplikasi nyata, ini akan mengunduh file dari server
+                    alert(`Mengunduh file: ${proofName}`);
+                    
+                    // Simulasi unduhan
+                    const link = document.createElement('a');
+                    link.href = '#'; // Ganti dengan URL file sebenarnya
+                    link.download = proofName;
+                    link.click();
+                }
+            });
+
+            // Edit data
+            document.getElementById('saveEdit').addEventListener('click', function() {
+                const id = document.getElementById('editId').value;
+                const type = this.getAttribute('data-type');
+                
+                if (type === 'income') {
+                    updateIncome(id);
+                } else {
+                    updateExpense(id);
+                }
+                
+                editModal.hide();
+            });
+
+            // Laporan
+            document.getElementById('income3Months').addEventListener('click', function() {
+                alert('Menampilkan laporan pemasukan 3 bulan');
+                updateIncomeReportChart(['Jan', 'Feb', 'Mar'], [1250, 980, 1500]);
+            });
+
+            document.getElementById('income6Months').addEventListener('click', function() {
+                alert('Menampilkan laporan pemasukan 6 bulan');
+                updateIncomeReportChart(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'], [1250, 980, 1500, 1200, 1800, 2000]);
+            });
+
+            document.getElementById('income8Months').addEventListener('click', function() {
+                alert('Menampilkan laporan pemasukan 8 bulan');
+                updateIncomeReportChart(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu'], [1250, 980, 1500, 1200, 1800, 2000, 1750, 1600]);
+            });
+
+            document.getElementById('income1Year').addEventListener('click', function() {
+                alert('Menampilkan laporan pemasukan 1 tahun');
+                updateIncomeReportChart(
+                    ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    [1250, 980, 1500, 1200, 1800, 2000, 1750, 1600, 1400, 1300, 1100, 1000]
+                );
+            });
+
+            // Fungsi serupa untuk pengeluaran
+            document.getElementById('expense3Months').addEventListener('click', function() {
+                updateExpenseReportChart(['Jan', 'Feb', 'Mar'], [750, 600, 850]);
+            });
+
+            document.getElementById('expense6Months').addEventListener('click', function() {
+                updateExpenseReportChart(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'], [750, 600, 850, 700, 950, 1100]);
+            });
+
+            document.getElementById('expense8Months').addEventListener('click', function() {
+                updateExpenseReportChart(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu'], [750, 600, 850, 700, 950, 1100, 900, 800]);
+            });
+
+            document.getElementById('expense1Year').addEventListener('click', function() {
+                updateExpenseReportChart(
+                    ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    [750, 600, 850, 700, 950, 1100, 900, 800, 700, 650, 550, 500]
+                );
+            });
+
+            // Export laporan
+            document.getElementById('exportExcel').addEventListener('click', function() {
+                alert('Mengekspor laporan ke Excel');
+                // Dalam aplikasi nyata, ini akan mengunduh file Excel
+            });
+
+            document.getElementById('exportPDF').addEventListener('click', function() {
+                alert('Mengekspor laporan ke PDF');
+                // Dalam aplikasi nyata, ini akan mengunduh file PDF
+            });
+
+            // Initialize charts
+            initCharts();
+        });
+
+        // Fungsi untuk mengatur upload file
+        function setupFileUpload(type) {
+            const container = document.getElementById(`${type}FileUpload`);
+            const input = document.getElementById(`${type}FileInput`);
+            const preview = document.getElementById(`${type}FilePreview`);
+
+            container.addEventListener('click', () => input.click());
+            input.addEventListener('change', function(e) {
+                preview.innerHTML = '';
+                
+                if (this.files && this.files.length > 0) {
+                    for (let i = 0; i < this.files.length; i++) {
+                        const file = this.files[i];
+                        const fileType = file.type.split('/')[0];
+                        
+                        if (fileType === 'image') {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.classList.add('file-preview');
+                                preview.appendChild(img);
+                            };
+                            reader.readAsDataURL(file);
+                        } else {
+                            const icon = document.createElement('i');
+                            if (file.type.includes('pdf')) {
+                                icon.className = 'fas fa-file-pdf fa-2x me-2';
+                                icon.style.color = '#FF0000';
+                            } else if (file.type.includes('word') || file.type.includes('document')) {
+                                icon.className = 'fas fa-file-word fa-2x me-2';
+                                icon.style.color = '#2B579A';
+                            } else if (file.type.includes('excel') || file.type.includes('spreadsheet')) {
+                                icon.className = 'fas fa-file-excel fa-2x me-2';
+                                icon.style.color = '#217346';
+                            } else {
+                                icon.className = 'fas fa-file fa-2x me-2';
+                            }
+                            
+                            const fileName = document.createElement('span');
+                            fileName.textContent = file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name;
+                            
+                            const wrapper = document.createElement('div');
+                            wrapper.classList.add('d-flex', 'align-items-center', 'mb-2');
+                            wrapper.appendChild(icon);
+                            wrapper.appendChild(fileName);
+                            
+                            preview.appendChild(wrapper);
+                        }
+                    }
+                }
+            });
+        }
+
+        // Fungsi untuk menampilkan data pemasukan
+        function renderIncomeTable() {
+            const tbody = document.getElementById('incomeTableBody');
+            tbody.innerHTML = '';
+
+            incomeData.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.className = 'income-bg';
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${formatDate(item.date)}</td>
+                    <td>Rp ${formatNumber(item.amount)}</td>
+                    <td>${getIncomeSource(item.source)}</td>
+                    <td>${item.description}</td>
+                    <td>
+                        ${item.proof ? 
+                            `<span class="badge bg-primary proof-badge" data-id="${item.id}" data-type="income" data-proof-type="${item.proofType}" data-proof-name="${item.proof}">
+                                <i class="fas ${getProofIcon(item.proofType)} me-1"></i> Lihat
+                            </span>` : 
+                            'Tidak ada bukti'
+                        }
+                    </td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${item.id}" data-type="income">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${item.id}" data-type="income">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Tambahkan event listener untuk tombol lihat bukti
+            document.querySelectorAll('.proof-badge').forEach(badge => {
+                badge.addEventListener('click', function() {
+                    showProofModal(
+                        this.getAttribute('data-proof-type'), 
+                        this.getAttribute('data-proof-name')
+                    );
+                });
+            });
+
+            // Tambahkan event listener untuk tombol edit
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.getAttribute('data-type');
+                    showEditModal(id, type);
+                });
+            });
+
+            // Tambahkan event listener untuk tombol hapus
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.getAttribute('data-type');
+                    
+                    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                        if (type === 'income') {
+                            deleteIncome(id);
+                        } else {
+                            deleteExpense(id);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Fungsi untuk menampilkan data pengeluaran
+        function renderExpenseTable() {
+            const tbody = document.getElementById('expenseTableBody');
+            tbody.innerHTML = '';
+
+            expenseData.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.className = 'expense-bg';
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${formatDate(item.date)}</td>
+                    <td>Rp ${formatNumber(item.amount)}</td>
+                    <td>${getExpenseCategory(item.category)}</td>
+                    <td>${item.description}</td>
+                    <td>
+                        ${item.proof ? 
+                            `<span class="badge bg-primary proof-badge" data-id="${item.id}" data-type="expense" data-proof-type="${item.proofType}" data-proof-name="${item.proof}">
+                                <i class="fas ${getProofIcon(item.proofType)} me-1"></i> Lihat
+                            </span>` : 
+                            'Tidak ada bukti'
+                        }
+                    </td>
+                    <td class="action-buttons">
+                        <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${item.id}" data-type="expense">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${item.id}" data-type="expense">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Tambahkan event listener untuk tombol lihat bukti
+            document.querySelectorAll('.proof-badge').forEach(badge => {
+                badge.addEventListener('click', function() {
+                    showProofModal(
+                        this.getAttribute('data-proof-type'), 
+                        this.getAttribute('data-proof-name')
+                    );
+                });
+            });
+
+            // Tambahkan event listener untuk tombol edit
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.getAttribute('data-type');
+                    showEditModal(id, type);
+                });
+            });
+
+            // Tambahkan event listener untuk tombol hapus
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const type = this.getAttribute('data-type');
+                    
+                    if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
+                        if (type === 'income') {
+                            deleteIncome(id);
+                        } else {
+                            deleteExpense(id);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Fungsi untuk menampilkan modal bukti
+        function showProofModal(proofType, proofName) {
+            const proofModal = new bootstrap.Modal(document.getElementById('proofModal'));
+            const proofImage = document.getElementById('proofImage');
+            const proofDocument = document.getElementById('proofDocument');
+            const noProof = document.getElementById('noProof');
+            const downloadBtn = document.getElementById('downloadProof');
+
+            // Sembunyikan semua elemen terlebih dahulu
+            proofImage.style.display = 'none';
+            proofDocument.style.display = 'none';
+            noProof.style.display = 'none';
+
+            // Set data untuk tombol download
+            downloadBtn.setAttribute('data-proof-type', proofType);
+            downloadBtn.setAttribute('data-proof-name', proofName);
+
+            if (proofType && proofName) {
+                if (proofType === 'image') {
+                    // Untuk gambar, tampilkan placeholder
+                    proofImage.src = 'https://via.placeholder.com/800x600?text=' + encodeURIComponent(proofName);
+                    proofImage.style.display = 'block';
+                    downloadBtn.style.display = 'block';
+                } else {
+                    // Untuk dokumen, tampilkan pesan
+                    noProof.innerHTML = `
+                        <i class="fas fa-file-alt fa-5x mb-3"></i>
+                        <p>File ${proofName} siap diunduh</p>
+                        <p class="small text-muted">Klik tombol Unduh untuk mendapatkan file</p>
+                    `;
+                    noProof.style.display = 'block';
+                    downloadBtn.style.display = 'block';
+                }
+            } else {
+                noProof.innerHTML = `
+                    <i class="fas fa-file-alt fa-5x mb-3"></i>
+                    <p>Tidak ada bukti yang tersedia</p>
+                `;
+                noProof.style.display = 'block';
+                downloadBtn.style.display = 'none';
+            }
+
+            proofModal.show();
+        }
+
+        // Fungsi untuk menampilkan modal edit
+        function showEditModal(id, type) {
+            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            const editForm = document.getElementById('editForm');
+            const editModalTitle = document.getElementById('editModalTitle');
+            const editCategoryLabel = document.getElementById('editCategoryLabel');
+            const editCategory = document.getElementById('editCategory');
+            const currentProof = document.getElementById('currentProof');
+            const saveEditBtn = document.getElementById('saveEdit');
+
+            // Set judul modal dan tipe data
+            if (type === 'income') {
+                editModalTitle.textContent = 'Edit Pemasukan';
+                editCategoryLabel.textContent = 'Sumber Pemasukan';
+                saveEditBtn.setAttribute('data-type', 'income');
+                
+                // Isi dropdown sumber pemasukan
+                editCategory.innerHTML = `
+                    <option value="iuran">Iuran Anggota</option>
+                    <option value="donasi">Donasi</option>
+                    <option value="sponsor">Sponsor</option>
+                    <option value="kegiatan">Kegiatan</option>
+                    <option value="lainnya">Lainnya</option>
+                `;
+                
+                // Cari data pemasukan
+                const income = incomeData.find(item => item.id == id);
+                if (income) {
+                    document.getElementById('editId').value = income.id;
+                    document.getElementById('editDate').value = income.date;
+                    document.getElementById('editAmount').value = income.amount;
+                    document.getElementById('editCategory').value = income.source;
+                    document.getElementById('editDescription').value = income.description;
+                    
+                    // Tampilkan bukti saat ini
+                    currentProof.innerHTML = income.proof ? 
+                        `<span class="badge bg-primary">
+                            <i class="fas ${getProofIcon(income.proofType)} me-1"></i> ${income.proof}
+                        </span>` : 
+                        'Tidak ada bukti';
+                }
+            } else {
+                editModalTitle.textContent = 'Edit Pengeluaran';
+                editCategoryLabel.textContent = 'Kategori Pengeluaran';
+                saveEditBtn.setAttribute('data-type', 'expense');
+                
+                // Isi dropdown kategori pengeluaran
+                editCategory.innerHTML = `
+                    <option value="kegiatan">Kegiatan</option>
+                    <option value="administrasi">Administrasi</option>
+                    <option value="alat">Peralatan</option>
+                    <option value="transportasi">Transportasi</option>
+                    <option value="lainnya">Lainnya</option>
+                `;
+                
+                // Cari data pengeluaran
+                const expense = expenseData.find(item => item.id == id);
+                if (expense) {
+                    document.getElementById('editId').value = expense.id;
+                    document.getElementById('editDate').value = expense.date;
+                    document.getElementById('editAmount').value = expense.amount;
+                    document.getElementById('editCategory').value = expense.category;
+                    document.getElementById('editDescription').value = expense.description;
+                    
+                    // Tampilkan bukti saat ini
+                    currentProof.innerHTML = expense.proof ? 
+                        `<span class="badge bg-primary">
+                            <i class="fas ${getProofIcon(expense.proofType)} me-1"></i> ${expense.proof}
+                        </span>` : 
+                        'Tidak ada bukti';
+                }
+            }
+
+            // Kosongkan preview file baru
+            document.getElementById('editFilePreview').innerHTML = '';
+            
+            editModal.show();
+        }
+
+        // Fungsi untuk menambah pemasukan
+        function addIncome() {
+            const date = document.getElementById('incomeDate').value;
+            const amount = document.getElementById('incomeAmount').value;
+            const source = document.getElementById('incomeSource').value;
+            const description = document.getElementById('incomeDescription').value;
+            const fileInput = document.getElementById('incomeFileInput');
+            
+            // Validasi
+            if (!date || !amount || !source) {
+                alert('Harap isi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Buat objek pemasukan baru
+            const newIncome = {
+                id: incomeData.length > 0 ? Math.max(...incomeData.map(item => item.id)) + 1 : 1,
+                date: date,
+                amount: parseInt(amount),
+                source: source,
+                description: description,
+                proof: fileInput.files.length > 0 ? fileInput.files[0].name : null,
+                proofType: fileInput.files.length > 0 ? 
+                    (fileInput.files[0].type.includes('image') ? 'image' : 
+                    (fileInput.files[0].type.includes('pdf') ? 'pdf' : 'document')) : null
+            };
+            
+            // Tambahkan ke array data
+            incomeData.push(newIncome);
+            
+            // Reset form
+            document.getElementById('incomeForm').reset();
+            document.getElementById('incomeFilePreview').innerHTML = '';
+            
+            // Refresh tabel
+            renderIncomeTable();
+            
+            // Refresh chart
+            updateIncomeChart();
+            
+            alert('Data pemasukan berhasil ditambahkan!');
+        }
+
+        // Fungsi untuk menambah pengeluaran
+        function addExpense() {
+            const date = document.getElementById('expenseDate').value;
+            const amount = document.getElementById('expenseAmount').value;
+            const category = document.getElementById('expenseCategory').value;
+            const description = document.getElementById('expenseDescription').value;
+            const fileInput = document.getElementById('expenseFileInput');
+            
+            // Validasi
+            if (!date || !amount || !category) {
+                alert('Harap isi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Buat objek pengeluaran baru
+            const newExpense = {
+                id: expenseData.length > 0 ? Math.max(...expenseData.map(item => item.id)) + 1 : 1,
+                date: date,
+                amount: parseInt(amount),
+                category: category,
+                description: description,
+                proof: fileInput.files.length > 0 ? fileInput.files[0].name : null,
+                proofType: fileInput.files.length > 0 ? 
+                    (fileInput.files[0].type.includes('image') ? 'image' : 
+                    (fileInput.files[0].type.includes('pdf') ? 'pdf' : 'document')) : null
+            };
+            
+            // Tambahkan ke array data
+            expenseData.push(newExpense);
+            
+            // Reset form
+            document.getElementById('expenseForm').reset();
+            document.getElementById('expenseFilePreview').innerHTML = '';
+            
+            // Refresh tabel
+            renderExpenseTable();
+            
+            // Refresh chart
+            updateExpenseChart();
+            
+            alert('Data pengeluaran berhasil ditambahkan!');
+        }
+
+        // Fungsi untuk mengupdate pemasukan
+        function updateIncome(id) {
+            const date = document.getElementById('editDate').value;
+            const amount = document.getElementById('editAmount').value;
+            const source = document.getElementById('editCategory').value;
+            const description = document.getElementById('editDescription').value;
+            const fileInput = document.getElementById('editFileInput');
+            
+            // Cari index data
+            const index = incomeData.findIndex(item => item.id == id);
+            
+            if (index !== -1) {
+                // Update data
+                incomeData[index].date = date;
+                incomeData[index].amount = parseInt(amount);
+                incomeData[index].source = source;
+                incomeData[index].description = description;
+                
+                // Jika ada file baru diupload
+                if (fileInput.files.length > 0) {
+                    incomeData[index].proof = fileInput.files[0].name;
+                    incomeData[index].proofType = fileInput.files[0].type.includes('image') ? 'image' : 
+                                                (fileInput.files[0].type.includes('pdf') ? 'pdf' : 'document');
+                }
+                
+                // Refresh tabel
+                renderIncomeTable();
+                
+                // Refresh chart
+                updateIncomeChart();
+                
+                alert('Data pemasukan berhasil diperbarui!');
+            }
+        }
+
+        // Fungsi untuk mengupdate pengeluaran
+        function updateExpense(id) {
+            const date = document.getElementById('editDate').value;
+            const amount = document.getElementById('editAmount').value;
+            const category = document.getElementById('editCategory').value;
+            const description = document.getElementById('editDescription').value;
+            const fileInput = document.getElementById('editFileInput');
+            
+            // Cari index data
+            const index = expenseData.findIndex(item => item.id == id);
+            
+            if (index !== -1) {
+                // Update data
+                expenseData[index].date = date;
+                expenseData[index].amount = parseInt(amount);
+                expenseData[index].category = category;
+                expenseData[index].description = description;
+                
+                // Jika ada file baru diupload
+                if (fileInput.files.length > 0) {
+                    expenseData[index].proof = fileInput.files[0].name;
+                    expenseData[index].proofType = fileInput.files[0].type.includes('image') ? 'image' : 
+                                                (fileInput.files[0].type.includes('pdf') ? 'pdf' : 'document');
+                }
+                
+                // Refresh tabel
+                renderExpenseTable();
+                
+                // Refresh chart
+                updateExpenseChart();
+                
+                alert('Data pengeluaran berhasil diperbarui!');
+            }
+        }
+
+        // Fungsi untuk menghapus pemasukan
+        function deleteIncome(id) {
+            const index = incomeData.findIndex(item => item.id == id);
+            
+            if (index !== -1) {
+                incomeData.splice(index, 1);
+                renderIncomeTable();
+                updateIncomeChart();
+                alert('Data pemasukan berhasil dihapus!');
+            }
+        }
+
+        // Fungsi untuk menghapus pengeluaran
+        function deleteExpense(id) {
+            const index = expenseData.findIndex(item => item.id == id);
+            
+            if (index !== -1) {
+                expenseData.splice(index, 1);
+                renderExpenseTable();
+                updateExpenseChart();
+                alert('Data pengeluaran berhasil dihapus!');
+            }
+        }
+
+        // Fungsi untuk inisialisasi chart
+        function initCharts() {
+            // Income Chart
+            const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+            window.incomeChart = new Chart(incomeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Iuran Anggota', 'Donasi', 'Sponsor', 'Kegiatan', 'Lainnya'],
+                    datasets: [{
+                        data: [45, 20, 25, 5, 5],
+                        backgroundColor: [
+                            'rgba(52, 152, 219, 0.8)',
+                            'rgba(46, 204, 113, 0.8)',
+                            'rgba(241, 196, 15, 0.8)',
+                            'rgba(155, 89, 182, 0.8)',
+                            'rgba(149, 165, 166, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+
+            // Expense Chart
+            const expenseCtx = document.getElementById('expenseChart').getContext('2d');
+            window.expenseChart = new Chart(expenseCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Kegiatan', 'Administrasi', 'Peralatan', 'Transportasi', 'Lainnya'],
+                    datasets: [{
+                        data: [50, 20, 15, 10, 5],
+                        backgroundColor: [
+                            'rgba(231, 76, 60, 0.8)',
+                            'rgba(52, 152, 219, 0.8)',
+                            'rgba(241, 196, 15, 0.8)',
+                            'rgba(46, 204, 113, 0.8)',
+                            'rgba(149, 165, 166, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+
+            // Income Report Chart
+            const incomeReportCtx = document.getElementById('incomeReportChart').getContext('2d');
+            window.incomeReportChart = new Chart(incomeReportCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [{
+                        label: 'Pemasukan (ribu Rp)',
+                        data: [1250, 980, 1500, 1200, 1800, 2000, 1750, 1600, 1400, 1300, 1100, 1000],
+                        backgroundColor: 'rgba(46, 204, 113, 0.7)',
+                        borderColor: 'rgba(46, 204, 113, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Jumlah (ribu Rp)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Expense Report Chart
+            const expenseReportCtx = document.getElementById('expenseReportChart').getContext('2d');
+            window.expenseReportChart = new Chart(expenseReportCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [{
+                        label: 'Pengeluaran (ribu Rp)',
+                        data: [750, 600, 850, 700, 950, 1100, 900, 800, 700, 650, 550, 500],
+                        backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                        borderColor: 'rgba(231, 76, 60, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Jumlah (ribu Rp)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Fungsi untuk update income chart
+        function updateIncomeChart() {
+            // Hitung total per kategori
+            const categories = {
+                iuran: 0,
+                donasi: 0,
+                sponsor: 0,
+                kegiatan: 0,
+                lainnya: 0
+            };
+            
+            incomeData.forEach(item => {
+                categories[item.source] += item.amount;
+            });
+            
+            // Update chart
+            window.incomeChart.data.datasets[0].data = [
+                categories.iuran / 1000,
+                categories.donasi / 1000,
+                categories.sponsor / 1000,
+                categories.kegiatan / 1000,
+                categories.lainnya / 1000
+            ];
+            
+            window.incomeChart.update();
+        }
+
+        // Fungsi untuk update expense chart
+        function updateExpenseChart() {
+            // Hitung total per kategori
+            const categories = {
+                kegiatan: 0,
+                administrasi: 0,
+                alat: 0,
+                transportasi: 0,
+                lainnya: 0
+            };
+            
+            expenseData.forEach(item => {
+                categories[item.category] += item.amount;
+            });
+            
+            // Update chart
+            window.expenseChart.data.datasets[0].data = [
+                categories.kegiatan / 1000,
+                categories.administrasi / 1000,
+                categories.alat / 1000,
+                categories.transportasi / 1000,
+                categories.lainnya / 1000
+            ];
+            
+            window.expenseChart.update();
+        }
+
+        // Fungsi untuk update income report chart
+        function updateIncomeReportChart(labels, data) {
+            window.incomeReportChart.data.labels = labels;
+            window.incomeReportChart.data.datasets[0].data = data;
+            window.incomeReportChart.update();
+        }
+
+        // Fungsi untuk update expense report chart
+        function updateExpenseReportChart(labels, data) {
+            window.expenseReportChart.data.labels = labels;
+            window.expenseReportChart.data.datasets[0].data = data;
+            window.expenseReportChart.update();
+        }
+
+        // Fungsi helper untuk format tanggal
+        function formatDate(dateString) {
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        // Fungsi helper untuk format angka
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        }
+
+        // Fungsi helper untuk mendapatkan sumber pemasukan
+        function getIncomeSource(source) {
+            const sources = {
+                'iuran': 'Iuran Anggota',
+                'donasi': 'Donasi',
+                'sponsor': 'Sponsor',
+                'kegiatan': 'Kegiatan',
+                'lainnya': 'Lainnya'
+            };
+            return sources[source] || source;
+        }
+
+        // Fungsi helper untuk mendapatkan kategori pengeluaran
+        function getExpenseCategory(category) {
+            const categories = {
+                'kegiatan': 'Kegiatan',
+                'administrasi': 'Administrasi',
+                'alat': 'Peralatan',
+                'transportasi': 'Transportasi',
+                'lainnya': 'Lainnya'
+            };
+            return categories[category] || category;
+        }
+
+        // Fungsi helper untuk mendapatkan ikon bukti
+        function getProofIcon(proofType) {
+            const icons = {
+                'image': 'fa-image',
+                'pdf': 'fa-file-pdf',
+                'excel': 'fa-file-excel',
+                'document': 'fa-file-word'
+            };
+            return icons[proofType] || 'fa-file-alt';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data DPC Perperiode - JAKPUSSIDATU</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #dc3545;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --info-color: #0dcaf0;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --sidebar-width: 250px;
+            --navbar-height: 60px;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            height: var(--navbar-height);
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: var(--navbar-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--navbar-height));
+            background-color: white;
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            overflow-y: auto;
+            z-index: 900;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link {
+            color: var(--dark-color);
+            padding: 10px 20px;
+            border-radius: 0;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link:hover {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .sidebar .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            padding-top: calc(var(--navbar-height) + 20px);
+            min-height: 100vh;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            padding: 15px 20px;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        /* Table Styles */
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .table th {
+            font-weight: 600;
+            background-color: #f8f9fa;
+        }
+        
+        .table td, .table th {
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        /* Button Styles */
+        .btn-red {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-red:hover {
+            background-color: #c82333;
+            color: white;
+        }
+        
+        .btn-green {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-green:hover {
+            background-color: #0d6e3f;
+            color: white;
+        }
+        
+        /* Page Title */
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        /* Logo Container */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-container img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo-container .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-container .system-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        .logo-container .system-subtitle {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+        
+        /* Search Box */
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+        
+        /* Pagination */
+        .pagination {
+            margin-bottom: 0;
+        }
+        
+        .pagination .page-link {
+            color: var(--dark-color);
+            border: 1px solid #dee2e6;
+            margin: 0 2px;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Action Buttons */
+        .action-buttons .btn {
+            padding: 0.25rem 0.5rem;
+            margin: 0 2px;
+        }
+        
+        /* Modal Styles */
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .modal-header .btn-close {
+            color: white;
+            opacity: 1;
+        }
+        
+        /* Form Styles */
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            padding: 0.5rem 0.75rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+        
+        /* Profile Image Preview */
+        .profile-image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container-fluid">
+            <div class="logo-container">
+                <img src="../../assets/img/logo-pmkri.png" alt="PMKRI Logo">
+                <div class="logo-text">
+                    <span class="system-name">JAKPUSSIDATU</span>
+                    <span class="system-subtitle">PMKRI Jakarta Pusat</span>
+                </div>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-2"></i>Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Keluar</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="../dashboard/dashboard.html">
+                    <i class="fas fa-tachometer-alt"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../datapmkri/datapmkri.html">
+                    <i class="fas fa-users"></i>Data PMKRI
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="../datadpc/datadpc.html">
+                    <i class="fas fa-user-tie"></i>Data DPC
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../datakmk/kmk.html">
+                    <i class="fas fa-church"></i>Data OMK
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../kegiatan/kegiatan.html">
+                    <i class="fas fa-calendar-alt"></i>Kegiatan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../laporan/laporan.html">
+                    <i class="fas fa-file-alt"></i>Laporan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../pengaturan/pengaturan.html">
+                    <i class="fas fa-cog"></i>Pengaturan
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Data Dewan Pimpinan Cabang PMKRI Jakarta Pusat</h1>
+        
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Daftar DPC Perperiode</h5>
+                <button class="btn btn-red" data-bs-toggle="modal" data-bs-target="#addDpcModal">
+                    <i class="fas fa-plus me-2"></i>Tambah DPC
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Cari nama, kampus, posisi...">
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <div class="btn-group">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-filter me-2"></i>Filter
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" data-filter="all">Semua Periode</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="2020-2021">Periode 2020-2021</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="2021-2022">Periode 2021-2022</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="2022-2023">Periode 2022-2023</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="2023-2024">Periode 2023-2024</a></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-outline-success ms-2">
+                            <i class="fas fa-file-excel me-2"></i>Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover" id="dpcTable">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Lengkap</th>
+                                <th>Kampus</th>
+                                <th>Posisi Jabatan</th>
+                                <th>Masa Jabatan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="row align-items-center mt-3">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <p class="mb-0">Menampilkan <span id="showing-entries">0</span> dari <span id="total-entries">0</span> data</p>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-md-end" id="pagination">
+                                <!-- Pagination will be populated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add DPC Modal -->
+    <div class="modal fade" id="addDpcModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Data DPC</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDpcForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="namaLengkap" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="namaLengkap" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="namaPanggilan" class="form-label">Nama Panggilan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="namaPanggilan" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="jenisKelamin" class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+                                <select class="form-select" id="jenisKelamin" required>
+                                    <option value="" selected disabled>Pilih Jenis Kelamin</option>
+                                    <option value="laki-laki">Laki-laki</option>
+                                    <option value="perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="jurusan" class="form-label">Jurusan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="jurusan" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="statusPendidikan" class="form-label">Status Pendidikan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="statusPendidikan" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="namaKampus" class="form-label">Nama Kampus <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="namaKampus" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="asalKampus" class="form-label">Asal Kampus <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="asalKampus" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tahunMpab" class="form-label">Tahun MPAB <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="tahunMpab" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="masaJabatan" class="form-label">Masa Jabatan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="masaJabatan" placeholder="Contoh: 2022-2023" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="posisiJabatan" class="form-label">Posisi Jabatan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="posisiJabatan" placeholder="Contoh: Ketua, Sekretaris, Bendahara" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-red" id="saveNewDpc">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit DPC Modal -->
+    <div class="modal fade" id="editDpcModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Data DPC</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editDpcForm">
+                        <input type="hidden" id="editDpcId">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editNamaLengkap" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editNamaLengkap" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editNamaPanggilan" class="form-label">Nama Panggilan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editNamaPanggilan" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editJenisKelamin" class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+                                <select class="form-select" id="editJenisKelamin" required>
+                                    <option value="" disabled>Pilih Jenis Kelamin</option>
+                                    <option value="laki-laki">Laki-laki</option>
+                                    <option value="perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editJurusan" class="form-label">Jurusan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editJurusan" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editStatusPendidikan" class="form-label">Status Pendidikan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editStatusPendidikan" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editNamaKampus" class="form-label">Nama Kampus <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editNamaKampus" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editAsalKampus" class="form-label">Asal Kampus <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editAsalKampus" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editTahunMpab" class="form-label">Tahun MPAB <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editTahunMpab" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editMasaJabatan" class="form-label">Masa Jabatan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editMasaJabatan" placeholder="Contoh: 2022-2023" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editPosisiJabatan" class="form-label">Posisi Jabatan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editPosisiJabatan" placeholder="Contoh: Ketua, Sekretaris, Bendahara" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-red" id="updateDpc">Simpan Perubahan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Detail DPC Modal -->
+    <div class="modal fade" id="viewDpcModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail DPC</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 id="dpcName" class="mb-3">Nama Lengkap</h4>
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <p><strong>Nama Panggilan:</strong> <span id="dpcNickname"></span></p>
+                                    <p><strong>Jenis Kelamin:</strong> <span id="dpcGender"></span></p>
+                                    <p><strong>Jurusan:</strong> <span id="dpcMajor"></span></p>
+                                    <p><strong>Status Pendidikan:</strong> <span id="dpcEducationStatus"></span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Nama Kampus:</strong> <span id="dpcCampusName"></span></p>
+                                    <p><strong>Asal Kampus:</strong> <span id="dpcCampusOrigin"></span></p>
+                                    <p><strong>Tahun MPAB:</strong> <span id="dpcMpabYear"></span></p>
+                                    <p><strong>Masa Jabatan:</strong> <span id="dpcTenure"></span></p>
+                                    <p><strong>Posisi Jabatan:</strong> <span id="dpcPosition"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-warning" id="editFromDetail" data-dpc-id="">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteDpcModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="deleteDpcId">
+                    <p>Apakah Anda yakin ingin menghapus data <strong id="deleteDpcName"></strong>?</p>
+                    <p class="text-danger">Tindakan ini tidak dapat dibatalkan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Sample data for DPC
+        let dpcMembers = [
+            {
+                id: 1,
+                nama_lengkap: "Antonius Setiawan",
+                nama_panggilan: "Anton",
+                jenis_kelamin: "laki-laki",
+                jurusan: "Teknik Sipil",
+                status_pendidikan: "Mahasiswa",
+                nama_kampus: "Universitas Katolik Indonesia Atma Jaya",
+                asal_kampus: "Jakarta",
+                tahun_mpab: "2019",
+                masa_jabatan: "2022-2023",
+                posisi_jabatan: "Ketua"
+            },
+            {
+                id: 2,
+                nama_lengkap: "Maria Angelina",
+                nama_panggilan: "Angel",
+                jenis_kelamin: "perempuan",
+                jurusan: "Ilmu Komunikasi",
+                status_pendidikan: "Mahasiswa",
+                nama_kampus: "Universitas Indonesia",
+                asal_kampus: "Depok",
+                tahun_mpab: "2020",
+                masa_jabatan: "2022-2023",
+                posisi_jabatan: "Sekretaris"
+            },
+            {
+                id: 3,
+                nama_lengkap: "Yohanes Kristianto",
+                nama_panggilan: "Yohan",
+                jenis_kelamin: "laki-laki",
+                jurusan: "Ekonomi",
+                status_pendidikan: "Mahasiswa",
+                nama_kampus: "Universitas Atma Jaya",
+                asal_kampus: "Jakarta",
+                tahun_mpab: "2019",
+                masa_jabatan: "2022-2023",
+                posisi_jabatan: "Bendahara"
+            }
+        ];
+
+        // Variabel untuk pagination
+        const itemsPerPage = 10;
+        let currentPage = 1;
+        let filteredDpcMembers = [...dpcMembers];
+
+        // DOM Elements
+        const dpcTable = document.getElementById('dpcTable');
+        const searchInput = document.getElementById('searchInput');
+        const pagination = document.getElementById('pagination');
+        const showingEntries = document.getElementById('showing-entries');
+        const totalEntries = document.getElementById('total-entries');
+
+        // Render table data
+        function renderTable() {
+            const tableBody = dpcTable.querySelector('tbody');
+            tableBody.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredDpcMembers.length);
+            
+            if (filteredDpcMembers.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <i class="fas fa-search fa-2x mb-3 text-muted"></i>
+                            <p class="mb-0">Tidak ada data yang ditemukan</p>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                for (let i = startIndex; i < endIndex; i++) {
+                    const dpc = filteredDpcMembers[i];
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${i + 1}</td>
+                        <td>${dpc.nama_lengkap}</td>
+                        <td>${dpc.nama_kampus}</td>
+                        <td>${dpc.posisi_jabatan}</td>
+                        <td>${dpc.masa_jabatan}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-sm btn-info view-btn" data-id="${dpc.id}" title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning edit-btn" data-id="${dpc.id}" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${dpc.id}" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                }
+            }
+            
+            // Update pagination info
+            showingEntries.textContent = filteredDpcMembers.length > 0 ? `${startIndex + 1}-${endIndex}` : '0';
+            totalEntries.textContent = filteredDpcMembers.length;
+            
+            // Render pagination
+            renderPagination();
+            
+            // Add event listeners to buttons
+            addButtonEventListeners();
+        }
+
+        // Render pagination
+        function renderPagination() {
+            pagination.innerHTML = '';
+            
+            const totalPages = Math.ceil(filteredDpcMembers.length / itemsPerPage);
+            
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>`;
+            pagination.appendChild(prevLi);
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                pagination.appendChild(li);
+            }
+            
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>`;
+            pagination.appendChild(nextLi);
+            
+            // Add event listeners to pagination
+            const pageLinks = pagination.querySelectorAll('.page-link');
+            pageLinks.forEach((link, index) => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    if (index === 0) {
+                        // Previous button
+                        if (currentPage > 1) {
+                            currentPage--;
+                            renderTable();
+                        }
+                    } else if (index === pageLinks.length - 1) {
+                        // Next button
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            renderTable();
+                        }
+                    } else {
+                        // Page number
+                        currentPage = index;
+                        renderTable();
+                    }
+                });
+            });
+        }
+
+        // Add event listeners to action buttons
+        function addButtonEventListeners() {
+            // View buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const dpcId = parseInt(btn.getAttribute('data-id'));
+                    viewDpc(dpcId);
+                });
+            });
+            
+            // Edit buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const dpcId = parseInt(btn.getAttribute('data-id'));
+                    editDpc(dpcId);
+                });
+            });
+            
+            // Delete buttons
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const dpcId = parseInt(btn.getAttribute('data-id'));
+                    confirmDelete(dpcId);
+                });
+            });
+        }
+
+        // View DPC details
+        function viewDpc(id) {
+            const dpc = dpcMembers.find(d => d.id === id);
+            if (dpc) {
+                document.getElementById('dpcName').textContent = dpc.nama_lengkap;
+                document.getElementById('dpcNickname').textContent = dpc.nama_panggilan;
+                document.getElementById('dpcGender').textContent = dpc.jenis_kelamin === 'laki-laki' ? 'Laki-laki' : 'Perempuan';
+                document.getElementById('dpcMajor').textContent = dpc.jurusan;
+                document.getElementById('dpcEducationStatus').textContent = dpc.status_pendidikan;
+                document.getElementById('dpcCampusName').textContent = dpc.nama_kampus;
+                document.getElementById('dpcCampusOrigin').textContent = dpc.asal_kampus;
+                document.getElementById('dpcMpabYear').textContent = dpc.tahun_mpab;
+                document.getElementById('dpcTenure').textContent = dpc.masa_jabatan;
+                document.getElementById('dpcPosition').textContent = dpc.posisi_jabatan;
+                document.getElementById('editFromDetail').setAttribute('data-dpc-id', id);
+                
+                const viewModal = new bootstrap.Modal(document.getElementById('viewDpcModal'));
+                viewModal.show();
+            }
+        }
+
+        // Edit DPC
+        function editDpc(id) {
+            const dpc = dpcMembers.find(d => d.id === id);
+            if (dpc) {
+                document.getElementById('editDpcId').value = dpc.id;
+                document.getElementById('editNamaLengkap').value = dpc.nama_lengkap;
+                document.getElementById('editNamaPanggilan').value = dpc.nama_panggilan;
+                document.getElementById('editJenisKelamin').value = dpc.jenis_kelamin;
+                document.getElementById('editJurusan').value = dpc.jurusan;
+                document.getElementById('editStatusPendidikan').value = dpc.status_pendidikan;
+                document.getElementById('editNamaKampus').value = dpc.nama_kampus;
+                document.getElementById('editAsalKampus').value = dpc.asal_kampus;
+                document.getElementById('editTahunMpab').value = dpc.tahun_mpab;
+                document.getElementById('editMasaJabatan').value = dpc.masa_jabatan;
+                document.getElementById('editPosisiJabatan').value = dpc.posisi_jabatan;
+                
+                const editModal = new bootstrap.Modal(document.getElementById('editDpcModal'));
+                editModal.show();
+            }
+        }
+
+        // Confirm delete
+        function confirmDelete(id) {
+            const dpc = dpcMembers.find(d => d.id === id);
+            if (dpc) {
+                document.getElementById('deleteDpcId').value = dpc.id;
+                document.getElementById('deleteDpcName').textContent = dpc.nama_lengkap;
+                
+                const deleteModal = new bootstrap.Modal(document.getElementById('deleteDpcModal'));
+                deleteModal.show();
+            }
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            filteredDpcMembers = dpcMembers.filter(dpc => {
+                return (
+                    dpc.nama_lengkap.toLowerCase().includes(searchTerm) ||
+                    dpc.nama_panggilan.toLowerCase().includes(searchTerm) ||
+                    dpc.nama_kampus.toLowerCase().includes(searchTerm) ||
+                    dpc.posisi_jabatan.toLowerCase().includes(searchTerm)
+                );
+            });
+            currentPage = 1;
+            renderTable();
+        });
+
+        // Filter functionality
+        document.querySelectorAll('[data-filter]').forEach(filterBtn => {
+            filterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filterValue = filterBtn.getAttribute('data-filter');
+                
+                if (filterValue === 'all') {
+                    filteredDpcMembers = [...dpcMembers];
+                } else {
+                    filteredDpcMembers = dpcMembers.filter(dpc => dpc.masa_jabatan === filterValue);
+                }
+                
+                currentPage = 1;
+                renderTable();
+            });
+        });
+
+        // Save new DPC
+        document.getElementById('saveNewDpc').addEventListener('click', () => {
+            const namaLengkap = document.getElementById('namaLengkap').value;
+            const namaPanggilan = document.getElementById('namaPanggilan').value;
+            const jenisKelamin = document.getElementById('jenisKelamin').value;
+            const jurusan = document.getElementById('jurusan').value;
+            const statusPendidikan = document.getElementById('statusPendidikan').value;
+            const namaKampus = document.getElementById('namaKampus').value;
+            const asalKampus = document.getElementById('asalKampus').value;
+            const tahunMpab = document.getElementById('tahunMpab').value;
+            const masaJabatan = document.getElementById('masaJabatan').value;
+            const posisiJabatan = document.getElementById('posisiJabatan').value;
+            
+            // Validation
+            if (!namaLengkap || !namaPanggilan || !jenisKelamin || !jurusan || !statusPendidikan || 
+                !namaKampus || !asalKampus || !tahunMpab || !masaJabatan || !posisiJabatan) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Create new DPC object
+            const newDpc = {
+                id: dpcMembers.length > 0 ? Math.max(...dpcMembers.map(d => d.id)) + 1 : 1,
+                nama_lengkap: namaLengkap,
+                nama_panggilan: namaPanggilan,
+                jenis_kelamin: jenisKelamin,
+                jurusan: jurusan,
+                status_pendidikan: statusPendidikan,
+                nama_kampus: namaKampus,
+                asal_kampus: asalKampus,
+                tahun_mpab: tahunMpab,
+                masa_jabatan: masaJabatan,
+                posisi_jabatan: posisiJabatan
+            };
+            
+            // Add to DPC array
+            dpcMembers.push(newDpc);
+            filteredDpcMembers = [...dpcMembers];
+            
+            // Reset form
+            document.getElementById('addDpcForm').reset();
+            
+            // Close modal
+            const addModal = bootstrap.Modal.getInstance(document.getElementById('addDpcModal'));
+            addModal.hide();
+            
+            // Render table
+            renderTable();
+            
+            // Show success message
+            alert('Data DPC berhasil ditambahkan!');
+        });
+
+        // Update DPC
+        document.getElementById('updateDpc').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('editDpcId').value);
+            const namaLengkap = document.getElementById('editNamaLengkap').value;
+            const namaPanggilan = document.getElementById('editNamaPanggilan').value;
+            const jenisKelamin = document.getElementById('editJenisKelamin').value;
+            const jurusan = document.getElementById('editJurusan').value;
+            const statusPendidikan = document.getElementById('editStatusPendidikan').value;
+            const namaKampus = document.getElementById('editNamaKampus').value;
+            const asalKampus = document.getElementById('editAsalKampus').value;
+            const tahunMpab = document.getElementById('editTahunMpab').value;
+            const masaJabatan = document.getElementById('editMasaJabatan').value;
+            const posisiJabatan = document.getElementById('editPosisiJabatan').value;
+            
+            // Validation
+            if (!namaLengkap || !namaPanggilan || !jenisKelamin || !jurusan || !statusPendidikan || 
+                !namaKampus || !asalKampus || !tahunMpab || !masaJabatan || !posisiJabatan) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Find DPC index
+            const dpcIndex = dpcMembers.findIndex(d => d.id === id);
+            if (dpcIndex !== -1) {
+                // Update DPC data
+                dpcMembers[dpcIndex] = {
+                    ...dpcMembers[dpcIndex],
+                    nama_lengkap: namaLengkap,
+                    nama_panggilan: namaPanggilan,
+                    jenis_kelamin: jenisKelamin,
+                    jurusan: jurusan,
+                    status_pendidikan: statusPendidikan,
+                    nama_kampus: namaKampus,
+                    asal_kampus: asalKampus,
+                    tahun_mpab: tahunMpab,
+                    masa_jabatan: masaJabatan,
+                    posisi_jabatan: posisiJabatan
+                };
+                
+                // Update filtered DPC
+                filteredDpcMembers = [...dpcMembers];
+                
+                // Close modal
+                const editModal = bootstrap.Modal.getInstance(document.getElementById('editDpcModal'));
+                editModal.hide();
+                
+                // Render table
+                renderTable();
+                
+                // Show success message
+                alert('Data DPC berhasil diperbarui!');
+            }
+        });
+
+        // Delete DPC
+        document.getElementById('confirmDelete').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('deleteDpcId').value);
+            
+            // Find DPC index
+            const dpcIndex = dpcMembers.findIndex(d => d.id === id);
+            if (dpcIndex !== -1) {
+                // Remove DPC
+                dpcMembers.splice(dpcIndex, 1);
+                
+                // Update filtered DPC
+                filteredDpcMembers = [...dpcMembers];
+                
+                // Close modal
+                const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteDpcModal'));
+                deleteModal.hide();
+                
+                // Render table
+                renderTable();
+                
+                // Show success message
+                alert('Data DPC berhasil dihapus!');
+            }
+        });
+
+        // Edit from detail view
+        document.getElementById('editFromDetail').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('editFromDetail').getAttribute('data-dpc-id'));
+            
+            // Close detail modal
+            const viewModal = bootstrap.Modal.getInstance(document.getElementById('viewDpcModal'));
+            viewModal.hide();
+            
+            // Open edit modal
+            setTimeout(() => {
+                editDpc(id);
+            }, 500);
+        });
+
+        // Initialize table
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable();
+        });
+    </script>
+</body>
+</html>

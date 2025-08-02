@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Video - JAKPUSSIDATU PMKRI Jakarta Pusat</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <!-- Lightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --pmkri-blue: #3498DB;
+            --pmkri-red: #E74C3C;
+            --pmkri-yellow: #F1C40F;
+            --pmkri-orange: #E67E22;
+            --pmkri-green: #2ECC71;
+            --pmkri-light: #F9F9F9;
+            --pmkri-dark: #2C3E50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            min-block-size: 100vh;
+            padding-block-start: 70px;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 0.8rem 1rem;
+        }
+
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .system-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F8F9FA 100%);
+            min-block-size: calc(100vh - 70px);
+            box-shadow: 3px 0 15px rgba(0,0,0,0.05);
+            border-inline-end: 1px solid rgba(0,0,0,0.05);
+            position: fixed;
+            inline-size: 16.666667%;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar .nav-link {
+            color: var(--pmkri-dark);
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 4px 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .nav-link i {
+            inline-size: 24px;
+            text-align: center;
+            margin-inline-end: 12px;
+            color: var(--pmkri-blue);
+        }
+
+        .sidebar .nav-link.active {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white !important;
+            box-shadow: 0 4px 8px rgba(241, 196, 15, 0.3);
+        }
+
+        .sidebar .nav-link.active i {
+            color: white;
+        }
+
+        .sidebar .nav-link:hover:not(.active) {
+            background-color: rgba(52, 152, 219, 0.1);
+            transform: translateX(3px);
+        }
+
+        .sidebar .nav-divider {
+            border-block-start: 1px solid rgba(0,0,0,0.05);
+            margin: 20px 15px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-block-end: 1.5rem;
+            background: white;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-block-end: 1px solid rgba(255,255,255,0.1);
+        }
+
+        footer {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            padding: 1.5rem 0;
+            margin-block-start: 2rem;
+            border-block-start: 3px solid var(--pmkri-yellow);
+        }
+
+        .btn-pmkri {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-pmkri:hover {
+            background: linear-gradient(90deg, #2C81BA 0%, #2471A3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-yellow {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-yellow:hover {
+            background: linear-gradient(90deg, #F39C12 0%, #E67E22 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+        }
+
+        .breadcrumb {
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin-block-end: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--pmkri-blue);
+            font-weight: 500;
+        }
+
+        .page-title {
+            position: relative;
+            padding-inline-start: 25px;
+            margin: 30px 0 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--pmkri-blue);
+            text-shadow: 0 2px 3px rgba(0,0,0,0.05);
+        }
+
+        .page-title::before {
+            content: "";
+            position: absolute;
+            inset-inline-start: 0;
+            inset-block-start: 50%;
+            transform: translateY(-50%);
+            block-size: 100%;
+            inline-size: 8px;
+            background: linear-gradient(180deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            border-radius: 4px;
+        }
+
+        .logo-container {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-inline-end: 15px;
+        }
+
+        .logo {
+            block-size: 45px;
+        }
+
+        .main-content {
+            padding: 2rem;
+            min-block-size: calc(100vh - 120px);
+            margin-inline-start: 16.666667%;
+            inline-size: 83.333333%;
+        }
+
+        /* Video Gallery Styles */
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .video-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+        }
+
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button i {
+            color: white;
+            font-size: 24px;
+            margin-left: 5px;
+        }
+
+        .video-card:hover .play-button {
+            background-color: var(--pmkri-blue);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .video-info {
+            padding: 15px;
+            background: white;
+        }
+
+        .video-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--pmkri-dark);
+        }
+
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .video-duration {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .video-category {
+            display: inline-block;
+            padding: 3px 10px;
+            background-color: var(--pmkri-yellow);
+            color: var(--pmkri-dark);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .video-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .video-filter-btn {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            padding: 5px 15px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .video-filter-btn:hover, .video-filter-btn.active {
+            background: var(--pmkri-blue);
+            color: white;
+            border-color: var(--pmkri-blue);
+        }
+
+        .video-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .video-modal .modal-dialog {
+            max-width: 800px;
+        }
+
+        .video-modal iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        @media (max-inline-size: 992px) {
+            .sidebar {
+                inline-size: 100%;
+                position: relative;
+                min-block-size: auto;
+                z-index: 1;
+            }
+
+            .main-content {
+                margin-inline-start: 0;
+                inline-size: 100%;
+            }
+        }
+
+        @media (max-inline-size: 768px) {
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .video-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            
+            .video-modal iframe {
+                height: 300px;
+            }
+        }
+
+        /* Submenu styling */
+        .submenu {
+            padding-inline-start: 20px;
+        }
+
+        .submenu .nav-link {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            margin: 2px 0;
+        }
+
+        .submenu .nav-link i {
+            font-size: 0.9rem;
+            inline-size: 20px;
+        }
+
+        .nav-item .fa-angle-down {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item .collapsed .fa-angle-down {
+            transform: rotate(-90deg);
+        }
+
+        /* Active menu state */
+        .nav-link[aria-expanded="true"] {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <div class="logo-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Coat_of_arms_of_Indonesia.svg" alt="Logo PMKRI" class="logo">
+                </div>
+                <div>
+                    <div class="system-title">JAKPUSSIDATU</div>
+                    <div class="subtitle">PMKRI Cabang Jakarta Pusat</div>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="d-flex align-items-center ms-auto">
+                    <div class="dropdown me-3 position-relative">
+                        <a href="#" class="text-white dropdown-toggle" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell fs-5"></i>
+                            <span class="notification-badge">5</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notifDropdown" style="min-inline-size: 320px;">
+                            <li class="dropdown-header fw-bold mb-2" style="color: var(--pmkri-blue);">Notifikasi Terbaru</li>
+                            <li><a class="dropdown-item p-3 rounded" href="#">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <div class="rounded-circle p-2" style="background: var(--pmkri-red); inline-size: 38px; block-size: 38px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-exclamation-circle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold">Rapat Penting Besok</div>
+                                        <div class="text-muted small">Hari ini, 10:30 WIB</div>
+                                    </div>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item p-3 rounded" href="#">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <div class="rounded-circle p-2" style="background: var(--pmkri-blue); inline-size: 38px; block-size: 38px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-calendar-check text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold">Pelatihan Kepemimpinan</div>
+                                        <div class="text-muted small">Kemarin, 14:15 WIB</div>
+                                    </div>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item p-3 rounded" href="#">
+                                <div class="d-flex">
+                                    <div class="me-3">
+                                        <div class="rounded-circle p-2" style="background: var(--pmkri-green); inline-size: 38px; block-size: 38px; display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-user-plus text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold">Anggota Baru Bergabung</div>
+                                        <div class="text-muted small">2 hari lalu</div>
+                                    </div>
+                                </div>
+                            </a></li>
+                            <li class="text-center mt-2"><a href="#" class="btn btn-yellow btn-sm">Lihat Semua</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="text-white dropdown-toggle d-flex align-items-center" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Admin" class="user-avatar me-2">
+                            <span>Admin PMKRI</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="userDropdown">
+                            <li class="dropdown-header fw-bold mb-2" style="color: var(--pmkri-blue);">Administrator</li>
+                            <li><a class="dropdown-item rounded p-3" href="#"><i class="fas fa-user me-2" style="color: var(--pmkri-blue);"></i> Profil Saya</a></li>
+                            <li><a class="dropdown-item rounded p-3" href="#"><i class="fas fa-cog me-2" style="color: var(--pmkri-blue);"></i> Pengaturan Akun</a></li>
+                            <li><hr class="dropdown-divider mx-3 my-2"></li>
+                            <li><a class="dropdown-item rounded p-3" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2" style="color: var(--pmkri-red);"></i> Keluar</a></li>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 d-md-block sidebar">
+                <div class="pt-4">
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="../index.html">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+
+                        <!-- Database -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#anggotaMenu">
+                                <i class="fas fa-database"></i> Database
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="anggotaMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/pmkri/pmkri.html">
+                                            <i class="fas fa-users"></i> Data PMKRI
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/kmk/kmk.html">
+                                            <i class="fas fa-user-graduate"></i> Data KMK
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/omk/omk.html">
+                                            <i class="fas fa-user-tie"></i> Data OMK
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/dpc/dpc.html">
+                                            <i class="fas fa-calendar-alt"></i> DPC
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/phc/phc.html">
+                                            <i class="fas fa-user-shield"></i> PHC
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Keuangan -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="../pages/keuangan/keuangan.html">
+                                <i class="fas fa-file-invoice-dollar"></i> Keuangan
+                            </a>
+                        </li>
+
+                        <!-- Kegiatan -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#kegiatanMenu">
+                                <i class="fas fa-calendar-alt"></i> Kegiatan
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse show" id="kegiatanMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-calendar-day"></i> Jadwal Kegiatan
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-file-alt"></i> Dokumentasi
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/galeri-foto.html">
+                                            <i class="fas fa-images"></i> Galeri Foto
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#">
+                                            <i class="fas fa-video"></i> Galeri Video
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Dokumen -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#dokumenMenu">
+                                <i class="fas fa-file-alt"></i> Dokumen
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="dokumenMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-archive"></i> Arsip Dokumen
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/keuangan/keuangan.html">
+                                            <i class="fas fa-file-invoice"></i> Laporan Keuangan
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Publikasi -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#publikasiMenu">
+                                <i class="fas fa-bullhorn"></i> Publikasi
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="publikasiMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-newspaper"></i> Berita
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-bell"></i> Pengumuman
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-info-circle"></i> Informasi
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-divider"></li>
+
+                        <!-- Pengaturan -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pengaturanMenu">
+                                <i class="fas fa-cog"></i> Pengaturan
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="pengaturanMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-server"></i> Sistem
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-tools"></i> Tools Aplikasi
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-sliders-h"></i> Slider
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-university"></i> Data Kampus
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Administrator -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#adminMenu">
+                                <i class="fas fa-user-shield"></i> Administrator
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="adminMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User RISTEK
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User PHPT
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User GERMAS
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User PHMK
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User SEKJEN
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User BENDUM
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User KETUA
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User PPK
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 col-md-9 px-4 py-4 main-content">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="../index.html" class="text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Kegiatan</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Galeri Video</li>
+                    </ol>
+                </nav>
+
+                <h2 class="page-title">Galeri Video Kegiatan</h2>
+
+                <!-- Video Gallery Controls -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="video-filter">
+                        <button class="video-filter-btn active">Semua</button>
+                        <button class="video-filter-btn">Pelatihan</button>
+                        <button class="video-filter-btn">Seminar</button>
+                        <button class="video-filter-btn">Retreat</button>
+                        <button class="video-filter-btn">Bakti Sosial</button>
+                    </div>
+                    <button class="btn btn-pmkri video-upload-btn">
+                        <i class="fas fa-plus"></i> Upload Video
+                    </button>
+                </div>
+
+                <!-- Video Grid -->
+                <div class="video-gallery">
+                    <!-- Video 1 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://source.unsplash.com/random/600x400/?meeting" alt="Video Thumbnail">
+                            <div class="play-button" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <span class="video-duration">12:34</span>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-category">Pelatihan</span>
+                            <h5 class="video-title">Pelatihan Kepemimpinan PMKRI 2025</h5>
+                            <div class="video-meta">
+                                <span><i class="far fa-calendar-alt me-1"></i> 15 Mei 2025</span>
+                                <span><i class="far fa-eye me-1"></i> 245</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video 2 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://source.unsplash.com/random/600x400/?seminar" alt="Video Thumbnail">
+                            <div class="play-button" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <span class="video-duration">08:45</span>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-category">Seminar</span>
+                            <h5 class="video-title">Seminar Nasional Kebangsaan</h5>
+                            <div class="video-meta">
+                                <span><i class="far fa-calendar-alt me-1"></i> 22 Apr 2025</span>
+                                <span><i class="far fa-eye me-1"></i> 189</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video 3 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://source.unsplash.com/random/600x400/?retreat" alt="Video Thumbnail">
+                            <div class="play-button" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <span class="video-duration">15:20</span>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-category">Retreat</span>
+                            <h5 class="video-title">Retreat Spiritual Anggota Baru</h5>
+                            <div class="video-meta">
+                                <span><i class="far fa-calendar-alt me-1"></i> 10 Mar 2025</span>
+                                <span><i class="far fa-eye me-1"></i> 312</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video 4 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://source.unsplash.com/random/600x400/?charity" alt="Video Thumbnail">
+                            <div class="play-button" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <span class="video-duration">06:12</span>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-category">Bakti Sosial</span>
+                            <h5 class="video-title">Aksi Bakti Sosial PMKRI Jakarta Pusat</h5>
+                            <div class="video-meta">
+                                <span><i class="far fa-calendar-alt me-1"></i> 5 Feb 2025</span>
+                                <span><i class="far fa-eye me-1"></i> 156</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video 5 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://source.unsplash.com/random/600x400/?workshop" alt="Video Thumbnail">
+                            <div class="play-button" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <span class="video-duration">18:30</span>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-category">Workshop</span>
+                            <h5 class="video-title">Workshop Kreativitas Mahasiswa</h5>
+                            <div class="video-meta">
+                                <span><i class="far fa-calendar-alt me-1"></i> 20 Jan 2025</span>
+                                <span><i class="far fa-eye me-1"></i> 278</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video 6 -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://source.unsplash.com/random/600x400/?conference" alt="Video Thumbnail">
+                            <div class="play-button" data-bs-toggle="modal" data-bs-target="#videoModal" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <span class="video-duration">22:15</span>
+                        </div>
+                        <div class="video-info">
+                            <span class="video-category">Seminar</span>
+                            <h5 class="video-title">Dialog Kebangsaan PMKRI</h5>
+                            <div class="video-meta">
+                                <span><i class="far fa-calendar-alt me-1"></i> 15 Des 2024</span>
+                                <span><i class="far fa-eye me-1"></i> 421</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Page navigation" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="modal fade video-modal" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">Video PMKRI</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe id="videoFrame" src="" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 mb-4 mb-md-0 text-center text-md-start">
+                    <div class="mb-3">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Coat_of_arms_of_Indonesia.svg" alt="Logo PMKRI" class="footer-logo">
+                    </div>
+                    <div>
+                        <h5 class="text-white mb-1">JAKPUSSIDATU</h5>
+                        <p class="mb-0 text-white">Sistem Data Terpadu</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0 text-center">
+                    <p class="mb-1 text-white">Perhimpunan Mahasiswa Katolik Republik Indonesia</p>
+                    <p class="mb-1 text-warning fw-bold">Cabang Jakarta Pusat Sanctus Robertus Bellarminus</p>
+                    <p class="mb-0 text-white">Periode 2025-2027</p>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <p class="mb-1 text-white">© 2025 PMKRI Jakarta Pusat. Hak Cipta Dilindungi.</p>
+                    <p class="mb-0 text-white">Versi 1.0.0 | Terakhir diperbarui: 4 Juli 2025</p>
+                    <div class="mt-2">
+                        <a href="#" class="btn btn-sm btn-outline-light me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-light me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-light"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap & JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Video Modal functionality
+        var videoModal = document.getElementById('videoModal');
+        if (videoModal) {
+            videoModal.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var videoUrl = button.getAttribute('data-video');
+                var modalIframe = videoModal.querySelector('#videoFrame');
+                modalIframe.src = videoUrl;
+            });
+            
+            videoModal.addEventListener('hidden.bs.modal', function () {
+                var modalIframe = videoModal.querySelector('#videoFrame');
+                modalIframe.src = '';
+            });
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.video-filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.video-filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Here you would typically filter the video items
+                // For demo purposes, we're just showing all items
+                document.querySelectorAll('.video-card').forEach(item => {
+                    item.style.display = 'block';
+                });
+            });
+        });
+
+        // Upload button functionality
+        document.querySelector('.video-upload-btn').addEventListener('click', function() {
+            alert('Fitur upload video akan dibuka. Ini adalah demo saja.');
+            // In a real implementation, this would open a file upload modal
+        });
+    </script>
+</body>
+</html>

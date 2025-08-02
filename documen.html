@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentasi - JAKPUSSIDATU PMKRI Jakarta Pusat</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Lightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pmkri-blue: #3498DB;
+            --pmkri-red: #E74C3C;
+            --pmkri-yellow: #F1C40F;
+            --pmkri-orange: #E67E22;
+            --pmkri-green: #2ECC71;
+            --pmkri-light: #F9F9F9;
+            --pmkri-dark: #2C3E50;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            font-weight: 600;
+            border-radius: 10px 10px 0 0 !important;
+            padding: 15px 20px;
+        }
+
+        .btn-pmkri {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-pmkri:hover {
+            background: linear-gradient(90deg, #2C81BA 0%, #2471A3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-yellow {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-yellow:hover {
+            background: linear-gradient(90deg, #F39C12 0%, #E67E22 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .document-item {
+            border-left: 4px solid var(--pmkri-blue);
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .document-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .badge-category {
+            background-color: rgba(52, 152, 219, 0.15);
+            color: var(--pmkri-blue);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F8F9FA 100%);
+            min-height: calc(100vh - 70px);
+            box-shadow: 3px 0 15px rgba(0,0,0,0.05);
+            border-right: 1px solid rgba(0,0,0,0.05);
+            position: fixed;
+            width: 16.666667%;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .main-content {
+            padding: 2rem;
+            min-height: calc(100vh - 120px);
+            margin-left: 16.666667%;
+            width: 83.333333%;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                min-height: auto;
+                z-index: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 d-md-block sidebar">
+                <div class="pt-4">
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="jadwalkegiatan.html">
+                                <i class="fas fa-calendar-alt me-2"></i> Jadwal Kegiatan
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link active" href="dokumentasi.html">
+                                <i class="fas fa-file-alt me-2"></i> Dokumentasi
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="galerifoto.html">
+                                <i class="fas fa-images me-2"></i> Galeri Foto
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="galerivideo.html">
+                                <i class="fas fa-video me-2"></i> Galeri Video
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 col-md-9 px-4 py-4 main-content">
+                <h2 class="mb-4"><i class="fas fa-file-alt me-2"></i> Dokumentasi Kegiatan</h2>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Filter Dokumentasi</h5>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="filterYear" class="form-label">Tahun</label>
+                                            <select class="form-select" id="filterYear">
+                                                <option selected>Semua Tahun</option>
+                                                <option>2025</option>
+                                                <option>2024</option>
+                                                <option>2023</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="filterCategory" class="form-label">Kategori</label>
+                                            <select class="form-select" id="filterCategory">
+                                                <option selected>Semua Kategori</option>
+                                                <option>Seminar</option>
+                                                <option>Pelatihan</option>
+                                                <option>Rapat</option>
+                                                <option>Lainnya</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="searchDocument" class="form-label">Pencarian</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="searchDocument" placeholder="Cari dokumen...">
+                                            <button class="btn btn-outline-secondary" type="button">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-pmkri">Terapkan Filter</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Upload Dokumen Baru</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="uploadForm">
+                                    <div class="mb-3">
+                                        <label for="documentName" class="form-label">Nama Dokumen</label>
+                                        <input type="text" class="form-control" id="documentName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="documentCategory" class="form-label">Kategori</label>
+                                        <select class="form-select" id="documentCategory" required>
+                                            <option value="" selected disabled>Pilih kategori</option>
+                                            <option>Laporan Kegiatan</option>
+                                            <option>Notulensi Rapat</option>
+                                            <option>Proposal</option>
+                                            <option>Lainnya</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="documentFile" class="form-label">File Dokumen</label>
+                                        <input type="file" class="form-control" id="documentFile" accept=".pdf,.doc,.docx,.xls,.xlsx" required>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-pmkri">Upload Dokumen</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Daftar Dokumentasi</h5>
+                        <div>
+                            <button class="btn btn-yellow btn-sm me-2">
+                                <i class="fas fa-download me-1"></i> Export
+                            </button>
+                            <button class="btn btn-yellow btn-sm">
+                                <i class="fas fa-print me-1"></i> Print
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama Dokumen</th>
+                                        <th>Kategori</th>
+                                        <th>Tanggal Upload</th>
+                                        <th>Ukuran</th>
+                                        <th>Diupload Oleh</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Laporan Seminar Kepemimpinan 2025</td>
+                                        <td><span class="badge-category">Laporan Kegiatan</span></td>
+                                        <td>15 Juli 2025</td>
+                                        <td>2.5 MB</td>
+                                        <td>Admin PMKRI</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success me-1">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Notulensi Rapat Bulanan Juli 2025</td>
+                                        <td><span class="badge-category">Notulensi Rapat</span></td>
+                                        <td>10 Juli 2025</td>
+                                        <td>1.2 MB</td>
+                                        <td>Sekretaris</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success me-1">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Proposal Kegiatan Retreat 2025</td>
+                                        <td><span class="badge-category">Proposal</span></td>
+                                        <td>5 Juli 2025</td>
+                                        <td>3.8 MB</td>
+                                        <td>Bendahara</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success me-1">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Daftar Hadir Pelatihan Public Speaking</td>
+                                        <td><span class="badge-category">Laporan Kegiatan</span></td>
+                                        <td>1 Juli 2025</td>
+                                        <td>0.8 MB</td>
+                                        <td>Admin PMKRI</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-success me-1">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="Page navigation" class="mt-3">
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal View Document -->
+    <div class="modal fade" id="viewDocumentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentModalTitle">Laporan Seminar Kepemimpinan 2025</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <h6>Detail Dokumen:</h6>
+                                <p><strong>Kategori:</strong> Laporan Kegiatan</p>
+                                <p><strong>Tanggal Upload:</strong> 15 Juli 2025</p>
+                                <p><strong>Ukuran:</strong> 2.5 MB</p>
+                                <p><strong>Diupload Oleh:</strong> Admin PMKRI</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6>Deskripsi:</h6>
+                                <p>Laporan lengkap kegiatan Seminar Kepemimpinan yang diselenggarakan pada tanggal 10 Juli 2025 di Aula Universitas.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="ratio ratio-16x9">
+                                <iframe src="https://docs.google.com/viewer?url=https://example.com/document.pdf&embedded=true" style="width:100%; height:400px;" frameborder="0"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-pmkri">
+                        <i class="fas fa-download me-2"></i>Unduh Dokumen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Lightbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize modal
+            const viewDocumentModal = new bootstrap.Modal(document.getElementById('viewDocumentModal'));
+            
+            // Add event listeners to view buttons
+            document.querySelectorAll('.btn-outline-primary').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    viewDocumentModal.show();
+                });
+            });
+
+            // Form submission
+            document.getElementById('uploadForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Dokumen berhasil diupload!');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>

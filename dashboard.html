@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAKPUSSIDATU - PMKRI Jakarta Pusat</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --pmkri-blue: #3498DB;
+            --pmkri-red: #E74C3C;
+            --pmkri-yellow: #F1C40F;
+            --pmkri-orange: #E67E22;
+            --pmkri-green: #2ECC71;
+            --pmkri-light: #F9F9F9;
+            --pmkri-dark: #2C3E50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            min-block-size: 100vh;
+            padding-block-start: 70px;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 1rem;
+        }
+
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .system-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F8F9FA 100%);
+            min-block-size: calc(100vh - 70px);
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.05);
+            border-inline-end: 1px solid rgba(0, 0, 0, 0.05);
+            position: fixed;
+            inline-size: 16.666667%;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar .nav-link {
+            color: var(--pmkri-dark);
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 4px 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .nav-link i {
+            inline-size: 24px;
+            text-align: center;
+            margin-inline-end: 12px;
+            color: var(--pmkri-blue);
+        }
+
+        .sidebar .nav-link.active {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white !important;
+            box-shadow: 0 4px 8px rgba(241, 196, 15, 0.3);
+        }
+
+        .sidebar .nav-link.active i {
+            color: white;
+        }
+
+        .sidebar .nav-link:hover:not(.active) {
+            background-color: rgba(52, 152, 219, 0.1);
+            transform: translateX(3px);
+        }
+
+        .sidebar .nav-divider {
+            border-block-start: 1px solid rgba(0, 0, 0, 0.05);
+            margin: 20px 15px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-block-end: 1.5rem;
+            background: white;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-block-end: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card {
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card i {
+            font-size: 2.8rem;
+            color: white;
+            opacity: 0.9;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .bg-blue {
+            background: linear-gradient(135deg, var(--pmkri-blue) 0%, #1A5276 100%);
+        }
+
+        .bg-red {
+            background: linear-gradient(135deg, var(--pmkri-red) 0%, #C0392B 100%);
+        }
+
+        .bg-yellow {
+            background: linear-gradient(135deg, var(--pmkri-yellow) 0%, #D35400 100%);
+        }
+
+        .bg-green {
+            background: linear-gradient(135deg, var(--pmkri-green) 0%, #27AE60 100%);
+        }
+
+        footer {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            padding: 1.5rem 0;
+            margin-block-start: 2rem;
+            border-block-start: 3px solid var(--pmkri-yellow);
+        }
+
+        .table-responsive {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .table thead {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+        }
+
+        .table th {
+            font-weight: 600;
+            padding: 1rem;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .btn-pmkri {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-pmkri:hover {
+            background: linear-gradient(90deg, #2C81BA 0%, #2471A3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-yellow {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-yellow:hover {
+            background: linear-gradient(90deg, #F39C12 0%, #E67E22 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+        }
+
+        .breadcrumb {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin-block-end: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--pmkri-blue);
+            font-weight: 500;
+        }
+
+        .page-title {
+            position: relative;
+            padding-inline-start: 25px;
+            margin: 30px 0 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--pmkri-blue);
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title::before {
+            content: "";
+            position: absolute;
+            inset-inline-start: 0;
+            inset-block-start: 50%;
+            transform: translateY(-50%);
+            block-size: 100%;
+            inline-size: 8px;
+            background: linear-gradient(180deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            border-radius: 4px;
+        }
+
+        .user-avatar {
+            inline-size: 42px;
+            block-size: 42px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            object-fit: cover;
+        }
+
+        .notification-badge {
+            position: absolute;
+            inset-block-start: -5px;
+            inset-inline-end: -5px;
+            background: linear-gradient(135deg, var(--pmkri-red) 0%, #C0392B 100%);
+            color: white;
+            font-size: 0.75rem;
+            inline-size: 22px;
+            block-size: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-container {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-inline-end: 15px;
+        }
+
+        .logo {
+            block-size: 45px;
+        }
+
+        .main-content {
+            padding: 2rem;
+            min-block-size: calc(100vh - 120px);
+            margin-inline-start: 16.666667%;
+            inline-size: 83.333333%;
+        }
+
+        .footer-logo {
+            block-size: 65px;
+            margin-block-end: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .activity-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-inline-end: 8px;
+        }
+
+        .badge-update {
+            background: rgba(52, 152, 219, 0.15);
+            color: var(--pmkri-blue);
+        }
+
+        .badge-activity {
+            background: rgba(231, 76, 60, 0.15);
+            color: var(--pmkri-red);
+        }
+
+        .badge-finance {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--pmkri-green);
+        }
+
+        .badge-document {
+            background: rgba(241, 196, 15, 0.15);
+            color: var(--pmkri-yellow);
+        }
+
+        .member-avatar {
+            inline-size: 48px;
+            block-size: 48px;
+            border-radius: 50%;
+            border: 3px solid var(--pmkri-yellow);
+            object-fit: cover;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-red {
+            color: var(--pmkri-red);
+        }
+
+        .highlight-yellow {
+            color: var(--pmkri-yellow);
+        }
+
+        .highlight-blue {
+            color: var(--pmkri-blue);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 10px 0;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-banner {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-block-end: 30px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-banner::before {
+            content: "";
+            position: absolute;
+            inset-block-start: -50px;
+            inset-inline-end: -50px;
+            inline-size: 200px;
+            block-size: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .welcome-banner::after {
+            content: "";
+            position: absolute;
+            inset-block-end: -80px;
+            inset-inline-start: -80px;
+            inline-size: 250px;
+            block-size: 250px;
+            background: rgba(241, 196, 15, 0.1);
+            border-radius: 50%;
+        }
+
+        @media (max-inline-size: 992px) {
+            .sidebar {
+                inline-size: 100%;
+                position: relative;
+                min-block-size: auto;
+                z-index: 1;
+            }
+
+            .main-content {
+                margin-inline-start: 0;
+                inline-size: 100%;
+            }
+        }
+
+        @media (max-inline-size: 768px) {
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .stat-card .stat-number {
+                font-size: 1.8rem;
+            }
+
+            .welcome-banner h3 {
+                font-size: 1.4rem;
+            }
+
+            .table th,
+            .table td {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+
+            .breadcrumb {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Submenu styling */
+        .submenu {
+            padding-inline-start: 20px;
+        }
+
+        .submenu .nav-link {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            margin: 2px 0;
+        }
+
+        .submenu .nav-link i {
+            font-size: 0.9rem;
+            inline-size: 20px;
+        }
+
+        .nav-item .fa-angle-down {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item .collapsed .fa-angle-down {
+            transform: rotate(-90deg);
+        }
+
+        /* Active menu state */
+        .nav-link[aria-expanded="true"] {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        /* Chart styling */
+        .chart-container {
+            block-size: 250px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <div class="logo-container">
+                    <img src="../assets/img/logo.svg"
+                        alt="Logo PMKRI" class="logo">
+                </div>
+                <div>
+                    <div class="system-title">JAKPUSSIDATU</div>
+                    <div class="subtitle">PMKRI Cabang Jakarta Pusat</div>
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="d-flex align-items-center ms-auto">
+                    <div class="dropdown me-3 position-relative">
+                        <a href="#" class="text-white dropdown-toggle" id="notifDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell fs-5"></i>
+                            <span class="notification-badge">5</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="notifDropdown"
+                            style="min-inline-size: 320px;">
+                            <li class="dropdown-header fw-bold mb-2" style="color: var(--pmkri-blue);">Notifikasi
+                                Terbaru</li>
+                            <li><a class="dropdown-item p-3 rounded" href="#">
+                                    <div class="d-flex">
+                                        <div class="me-3">
+                                            <div class="rounded-circle p-2"
+                                                style="background: var(--pmkri-red); inline-size: 38px; block-size: 38px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-exclamation-circle text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold">Rapat Penting Besok</div>
+                                            <div class="text-muted small">Hari ini, 10:30 WIB</div>
+                                        </div>
+                                    </div>
+                                </a></li>
+                            <li><a class="dropdown-item p-3 rounded" href="#">
+                                    <div class="d-flex">
+                                        <div class="me-3">
+                                            <div class="rounded-circle p-2"
+                                                style="background: var(--pmkri-blue); inline-size: 38px; block-size: 38px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-calendar-check text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold">Pelatihan Kepemimpinan</div>
+                                            <div class="text-muted small">Kemarin, 14:15 WIB</div>
+                                        </div>
+                                    </div>
+                                </a></li>
+                            <li><a class="dropdown-item p-3 rounded" href="#">
+                                    <div class="d-flex">
+                                        <div class="me-3">
+                                            <div class="rounded-circle p-2"
+                                                style="background: var(--pmkri-green); inline-size: 38px; block-size: 38px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-user-plus text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold">Anggota Baru Bergabung</div>
+                                            <div class="text-muted small">2 hari lalu</div>
+                                        </div>
+                                    </div>
+                                </a></li>
+                            <li class="text-center mt-2"><a href="#" class="btn btn-yellow btn-sm">Lihat Semua</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="text-white dropdown-toggle d-flex align-items-center" id="userDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Admin"
+                                class="user-avatar me-2">
+                            <span>Admin PMKRI</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-2" aria-labelledby="userDropdown">
+                            <li class="dropdown-header fw-bold mb-2" style="color: var(--pmkri-blue);">Administrator
+                            </li>
+                            <li><a class="dropdown-item rounded p-3" href="#"><i class="fas fa-user me-2"
+                                        style="color: var(--pmkri-blue);"></i> Profil Saya</a></li>
+                            <li><a class="dropdown-item rounded p-3" href="#"><i class="fas fa-cog me-2"
+                                        style="color: var(--pmkri-blue);"></i> Pengaturan Akun</a></li>
+                            <li>
+                                <hr class="dropdown-divider mx-3 my-2">
+                            </li>
+                            <li><a class="dropdown-item rounded p-3" href="#" onclick="logout()"><i
+                                        class="fas fa-sign-out-alt me-2" style="color: var(--pmkri-red);"></i>
+                                    Keluar</a></li>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 d-md-block sidebar">
+                <div class="pt-4">
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2">
+                            <a class="nav-link active" href="#">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+
+                        <!-- Database -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="../dashboard/dashboard.html" data-bs-toggle="collapse"
+                                data-bs-target="#anggotaMenu">
+                                <i class="fas fa-database"></i> Database
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="anggotaMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../database/datapmkri/datapmkri.html">
+                                            <i class="fas fa-users"></i> Data PMKRI
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../database/datakmk/kmk.html">
+                                            <i class="fas fa-user-graduate"></i> Data KMK
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../database/dataomk/">
+                                            <i class="fas fa-user-tie"></i> Data OMK
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../database/datadpc/dpc.html">
+                                            <i class="fas fa-calendar-alt"></i> DPC
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../database/dataphc/phc.html">
+                                            <i class="fas fa-user-shield"></i> PHC
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../database/kampus/kampus.html">
+                                            <i class="fas fa-user-tie"></i> Data Kampus
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Keuangan -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link" href="../keuangan/keuangan.html">
+                                <i class="fas fa-file-invoice-dollar"></i> Keuangan
+                            </a>
+                        </li>
+
+                        <!-- Kegiatan -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="../kegiatan/jadwal/jadwal.html"
+                                data-bs-toggle="collapse" data-bs-target="#kegiatanMenu">
+                                <i class="fas fa-calendar-alt"></i> Kegiatan
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="kegiatanMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../kegiatan/jadwal/jadwal.html">
+                                            <i class="fas fa-calendar-day"></i> Jadwal Kegiatan
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../kegiatan/documentasi/documentasi.html">
+                                            <i class="fas fa-file-alt"></i> Dokumentasi
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../kegiatan/foto/foto.html">
+                                            <i class="fas fa-images"></i> Galeri Foto
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../kegiatan/video/video.html">
+                                            <i class="fas fa-video"></i> Galeri Video
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Dokumen -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="kegiatan" data-bs-toggle="collapse"
+                                data-bs-target="#dokumenMenu">
+                                <i class="fas fa-file-alt"></i> Dokumen
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="dokumenMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../arsip_documen/arsip.html>
+                                            <i class=" fas fa-archive"></i> Arsip Dokumen
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/keuangan/keuangan.html">
+                                            <i class="fas fa-file-invoice"></i> Laporan Keuangan
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Publikasi -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="publikasi" data-bs-toggle="collapse"
+                                data-bs-target="#publikasiMenu">
+                                <i class="fas fa-bullhorn"></i> Publikasi
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="publikasiMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../publikasi/berita/berita.html">
+                                            <i class="fas fa-newspaper"></i> Berita
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../publikasi/pengumuman/pengumuman.html">
+                                            <i class="fas fa-bell"></i> Pengumuman
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../publikasi/informasi/informasi.html">
+                                            <i class="fas fa-info-circle"></i> Informasi
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-divider"></li>
+
+                        <!-- Pengaturan -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#pengaturanMenu">
+                                <i class="fas fa-cog"></i> Pengaturan
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="pengaturanMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-server"></i> Sistem
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-tools"></i> Tools Aplikasi
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-sliders-h"></i> Slider
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../pages/kampus/kampus.html">
+                                            <i class="fas fa-university"></i> Data Kampus
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <!-- Administrator -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#adminMenu">
+                                <i class="fas fa-user-shield"></i> Administrator
+                                <i class="fas fa-angle-down float-end mt-1"></i>
+                            </a>
+                            <div class="collapse" id="adminMenu">
+                                <ul class="nav flex-column submenu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User RISTEK
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User PHPT
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User GERMAS
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User PHMK
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User SEKJEN
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User BENDUM
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User KETUA
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            <i class="fas fa-users-cog"></i> User PPK
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-10 col-md-9 px-4 py-4 main-content">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#" class="text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+
+                <h2 class="page-title">Selamat Datang JAKPUSSIDATU Sistem</h2>
+
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3 class="mb-3">Selamat Datang di Sistem Data Terpadu</h3>
+                            <p class="mb-0">Perhimpunan Mahasiswa Katolik Republik Indonesia Cabang Jakarta Pusat
+                                Sanctus Robertus Bellarminus Periode 2025-2027</p>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="p-3 bg-white rounded d-inline-block"
+                                style="box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                                <i class="fas fa-database fa-3x" style="color: var(--pmkri-blue);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card h-100 bg-blue text-white">
+                            <div class="card-body text-center p-4">
+                                <div class="mb-3">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h5 class="card-title">Total Anggota</h5>
+                                <div class="stat-number">148</div>
+                                <p class="mb-0"><small>12 anggota baru bulan ini</small></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card h-100 bg-red text-white">
+                            <div class="card-body text-center p-4">
+                                <div class="mb-3">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <h5 class="card-title">Saldo Keuangan</h5>
+                                <div class="stat-number">Rp 15.2 Jt</div>
+                                <p class="mb-0"><small>+Rp 2.4jt bulan ini</small></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card h-100 bg-yellow text-white">
+                            <div class="card-body text-center p-4">
+                                <div class="mb-3">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <h5 class="card-title">Kegiatan</h5>
+                                <div class="stat-number">9</div>
+                                <p class="mb-0"><small>3 kegiatan sedang berjalan</small></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card stat-card h-100 bg-green text-white">
+                            <div class="card-body text-center p-4">
+                                <div class="mb-3">
+                                    <i class="fas fa-folder"></i>
+                                </div>
+                                <h5 class="card-title">Dokumen</h5>
+                                <div class="stat-number">74</div>
+                                <p class="mb-0"><small>5 dokumen baru</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-white">Statistik Keanggotaan</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="membershipChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-white">Status Anggota</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="statusChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity & Anggota Baru -->
+                <div class="row">
+                    <!-- Recent Activity -->
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-white">Aktivitas Terbaru</h5>
+                                <a href="#" class="btn btn-yellow btn-sm">Lihat Semua</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    <a href="#" class="list-group-item list-group-item-action p-3">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div>
+                                                <span class="activity-badge badge-update">Update</span>
+                                                <h6 class="mb-1 d-inline">Pembaruan data anggota</h6>
+                                            </div>
+                                            <small class="text-muted">2 jam lalu</small>
+                                        </div>
+                                        <p class="mb-0 mt-2">Admin memperbarui data anggota <span
+                                                class="highlight-blue">Maria Sinta</span></p>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action p-3">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div>
+                                                <span class="activity-badge badge-activity">Kegiatan</span>
+                                                <h6 class="mb-1 d-inline">Kegiatan baru</h6>
+                                            </div>
+                                            <small class="text-muted">Kemarin</small>
+                                        </div>
+                                        <p class="mb-0 mt-2"><span class="highlight-yellow fw-bold">Pelatihan
+                                                Kepemimpinan PMKRI 2025</span> ditambahkan</p>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action p-3">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div>
+                                                <span class="activity-badge badge-finance">Keuangan</span>
+                                                <h6 class="mb-1 d-inline">Pencatatan keuangan</h6>
+                                            </div>
+                                            <small class="text-muted">2 hari lalu</small>
+                                        </div>
+                                        <p class="mb-0 mt-2">Pembayaran iuran anggota dari <span
+                                                class="highlight-red fw-bold">12 anggota</span> diterima</p>
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action p-3">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <div>
+                                                <span class="activity-badge badge-document">Dokumentasi</span>
+                                                <h6 class="mb-1 d-inline">Upload dokumentasi</h6>
+                                            </div>
+                                            <small class="text-muted">3 hari lalu</small>
+                                        </div>
+                                        <p class="mb-0 mt-2">Foto kegiatan <span class="highlight-blue">Retreat PMKRI
+                                                2025</span> diupload</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Anggota Baru -->
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-white">Anggota Baru</h5>
+                                <a href="#" class="btn btn-yellow btn-sm">Lihat Semua</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-4 p-3 bg-light rounded">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User"
+                                        class="member-avatar me-3">
+                                    <div>
+                                        <h6 class="mb-0 fw-semibold">Andi Wijaya</h6>
+                                        <small class="text-muted">Universitas Indonesia</small>
+                                        <div class="mt-2">
+                                            <span class="badge bg-blue text-white rounded-pill">Anggota Baru</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-4 p-3 bg-light rounded">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User"
+                                        class="member-avatar me-3">
+                                    <div>
+                                        <h6 class="mb-0 fw-semibold">Sinta Dewi</h6>
+                                        <small class="text-muted">STIS</small>
+                                        <div class="mt-2">
+                                            <span class="badge bg-yellow text-white rounded-pill">Aktif</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-4 p-3 bg-light rounded">
+                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User"
+                                        class="member-avatar me-3">
+                                    <div>
+                                        <h6 class="mb-0 fw-semibold">Budi Santoso</h6>
+                                        <small class="text-muted">Universitas Trisakti</small>
+                                        <div class="mt-2">
+                                            <span class="badge bg-red text-white rounded-pill">Calon Anggota</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center p-3 bg-light rounded">
+                                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User"
+                                        class="member-avatar me-3">
+                                    <div>
+                                        <h6 class="mb-0 fw-semibold">Rina Permata</h6>
+                                        <small class="text-muted">UNJ</small>
+                                        <div class="mt-2">
+                                            <span class="badge bg-blue text-white rounded-pill">Anggota Baru</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Daftar Anggota -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-white">Daftar Anggota</h5>
+                        <div>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Cari anggota...">
+                                <button class="btn btn-yellow" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <a href="#" class="btn btn-pmkri btn-sm mt-2 mt-md-0">Tambah Anggota</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Kampus</th>
+                                        <th>Jurusan</th>
+                                        <th>Status</th>
+                                        <th>Bergabung</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="User"
+                                                    class="member-avatar me-2">
+                                                <span>Antonius Setiawan</span>
+                                            </div>
+                                        </td>
+                                        <td>Universitas Indonesia</td>
+                                        <td>Teknik Elektro</td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>2022</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i
+                                                    class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning"><i
+                                                    class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="User"
+                                                    class="member-avatar me-2">
+                                                <span>Maria Sinta</span>
+                                            </div>
+                                        </td>
+                                        <td>STIS</td>
+                                        <td>Statistika</td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>2023</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i
+                                                    class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning"><i
+                                                    class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User"
+                                                    class="member-avatar me-2">
+                                                <span>Budi Raharjo</span>
+                                            </div>
+                                        </td>
+                                        <td>Universitas Trisakti</td>
+                                        <td>Hukum</td>
+                                        <td><span class="badge bg-warning text-dark">Alumni</span></td>
+                                        <td>2020</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i
+                                                    class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning"><i
+                                                    class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="User"
+                                                    class="member-avatar me-2">
+                                                <span>Rina Permata</span>
+                                            </div>
+                                        </td>
+                                        <td>UNJ</td>
+                                        <td>Pendidikan</td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                        <td>2024</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary"><i
+                                                    class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-outline-warning"><i
+                                                    class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 mb-4 mb-md-0 text-center text-md-start">
+                    <div class="mb-3">
+                        <img src="../assets/img/logo.svg"
+                            alt="Logo PMKRI" class="footer-logo">
+                    </div>
+                    <div>
+                        <h5 class="text-white mb-1">JAKPUSSIDATU</h5>
+                        <p class="mb-0 text-white">Sistem Data Terpadu</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0 text-center">
+                    <p class="mb-1 text-white">Perhimpunan Mahasiswa Katolik Republik Indonesia</p>
+                    <p class="mb-1 text-warning fw-bold">Cabang Jakarta Pusat Sanctus Robertus Bellarminus</p>
+                    <p class="mb-0 text-white">Periode 2025-2027</p>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <p class="mb-1 text-white">© 2025 PMKRI Jakarta Pusat. Hak Cipta Dilindungi.</p>
+                    <p class="mb-0 text-white">Versi 1.0.0 | Terakhir diperbarui: 4 Juli 2025</p>
+                    <div class="mt-2">
+                        <a href="#" class="btn btn-sm btn-outline-light me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-light me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-light"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap & JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Basic JavaScript for interactivity
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dashboard card hover effect
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-7px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Active link in sidebar
+            const currentLocation = location.href;
+            const menuItems = document.querySelectorAll('.nav-link');
+
+            menuItems.forEach(item => {
+                if (item.href === currentLocation) {
+                    item.classList.add('active');
+                }
+            });
+
+            // Notification counter animation
+            const notificationBadge = document.querySelector('.notification-badge');
+            if (notificationBadge) {
+                notificationBadge.addEventListener('click', function () {
+                    this.classList.add('animate__animated', 'animate__bounce');
+                    setTimeout(() => {
+                        this.classList.remove('animate__animated', 'animate__bounce');
+                    }, 1000);
+                });
+            }
+
+            // Initialize charts
+            const ctx1 = document.getElementById('membershipChart').getContext('2d');
+            const membershipChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'Anggota Baru',
+                        data: [12, 19, 15, 10, 18, 16, 12],
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('statusChart').getContext('2d');
+            const statusChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Aktif', 'Alumni', 'Calon Anggota'],
+                    datasets: [{
+                        data: [120, 25, 3],
+                        backgroundColor: [
+                            'rgba(46, 204, 113, 0.8)',
+                            'rgba(241, 196, 15, 0.8)',
+                            'rgba(231, 76, 60, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(46, 204, 113, 1)',
+                            'rgba(241, 196, 15, 1)',
+                            'rgba(231, 76, 60, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
