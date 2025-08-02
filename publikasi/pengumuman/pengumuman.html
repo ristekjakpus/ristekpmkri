@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Pengumuman - JAKPUSSIDATU</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --pmkri-blue: #3498DB;
+            --pmkri-red: #E74C3C;
+            --pmkri-yellow: #F1C40F;
+            --pmkri-orange: #E67E22;
+            --pmkri-green: #2ECC71;
+            --pmkri-light: #F9F9F9;
+            --pmkri-dark: #2C3E50;
+            --sidebar-width: 250px;
+            --navbar-height: 60px;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            height: var(--navbar-height);
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: var(--navbar-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--navbar-height));
+            background-color: white;
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            overflow-y: auto;
+            z-index: 900;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link {
+            color: var(--pmkri-dark);
+            padding: 10px 20px;
+            border-radius: 0;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--pmkri-blue);
+        }
+        
+        .sidebar .nav-link.active {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            padding-top: calc(var(--navbar-height) + 20px);
+            min-height: 100vh;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .btn-pmkri {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-pmkri:hover {
+            background: linear-gradient(90deg, #2C81BA 0%, #2471A3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-yellow {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-yellow:hover {
+            background: linear-gradient(90deg, #F39C12 0%, #E67E22 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+        
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 20px;
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .table th {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            font-weight: 500;
+            border: none;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .action-buttons .btn {
+            margin-right: 5px;
+        }
+        
+        .action-buttons .btn:last-child {
+            margin-right: 0;
+        }
+        
+        .announcement-image {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .modal-header {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+        }
+        
+        .modal-header .btn-close {
+            color: white;
+            opacity: 0.8;
+        }
+        
+        .note-editor {
+            border-radius: 5px;
+        }
+        
+        .page-title {
+            position: relative;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--pmkri-blue);
+        }
+        
+        .page-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 70%;
+            width: 5px;
+            background: linear-gradient(180deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            border-radius: 5px;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .detail-image {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="logo-container bg-white rounded me-2 p-1">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Coat_of_arms_of_Indonesia.svg" alt="Logo" height="30">
+                </div>
+                <div>
+                    <span class="fw-bold">JAKPUSSIDATU</span>
+                    <span class="d-block small">PMKRI Jakarta Pusat</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            </i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Notifikasi 1</a></li>
+                            <li><a class="dropdown-item" href="#">Notifikasi 2</a></li>
+                            <li><a class="dropdown-item" href="#">Notifikasi 3</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="rounded-circle me-2" width="32" height="32">
+                            <span>Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Keluar</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="../../dashboard/dashboard.html">
+                    <i class="fas fa-tachometer-alt"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/datapmkri/datapmkri.html">
+                    <i class="fas fa-users"></i>Data PMKRI
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/datadpc/dpc.html">
+                    <i class="fas fa-user-tie"></i>Data DPC
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/datakmk/kmk.html">
+                    <i class="fas fa-church"></i>Data OMK
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../kegiatan/kegiatan.html">
+                    <i class="fas fa-calendar-alt"></i>Kegiatan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="../../publikasi/pengumuman/pengumuman.html">
+                    <i class="fas fa-newspaper"></i>Publikasi
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/keuangan/keuangan.html">
+                    <i class="fas fa-money-bill-wave"></i>Keuangan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-cog"></i>Pengaturan
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Manajemen Pengumuman</h1>
+        
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Daftar Pengumuman</h5>
+                <button class="btn btn-pmkri" data-bs-toggle="modal" data-bs-target="#addAnnouncementModal">
+                    <i class="fas fa-plus me-2"></i>Tambah Pengumuman
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Cari judul, kategori, penulis...">
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <div class="btn-group">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-filter me-2"></i>Filter
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" data-filter="all">Semua Kategori</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="umum">Umum</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="internal">Internal</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="penting">Penting</a></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-outline-success ms-2">
+                            <i class="fas fa-file-excel me-2"></i>Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover" id="announcementTable">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Gambar</th>
+                                <th>Judul</th>
+                                <th>Kategori</th>
+                                <th>Penulis</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="row align-items-center mt-3">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <p class="mb-0">Menampilkan <span id="showing-entries">0</span> dari <span id="total-entries">0</span> data</p>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-md-end" id="pagination">
+                                <!-- Pagination will be populated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Announcement Modal -->
+    <div class="modal fade" id="addAnnouncementModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Pengumuman Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAnnouncementForm">
+                        <div class="mb-3">
+                            <label for="announcementTitle" class="form-label">Judul Pengumuman <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="announcementTitle" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="announcementCategory" class="form-label">Kategori <span class="text-danger">*</span></label>
+                                <select class="form-select" id="announcementCategory" required>
+                                    <option value="" selected disabled>Pilih Kategori</option>
+                                    <option value="umum">Umum</option>
+                                    <option value="internal">Internal</option>
+                                    <option value="penting">Penting</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="announcementAuthor" class="form-label">Penulis <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="announcementAuthor" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="announcementImage" class="form-label">Gambar Pengumuman</label>
+                            <input type="file" class="form-control" id="announcementImage" accept="image/*">
+                            <div id="imagePreviewContainer" class="mt-2 d-none">
+                                <img id="imagePreview" class="preview-image" src="" alt="Preview">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="announcementContent" class="form-label">Isi Pengumuman <span class="text-danger">*</span></label>
+                            <textarea id="announcementContent" class="form-control" rows="10" required></textarea>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="announcementStatus" class="form-label">Status</label>
+                                <select class="form-select" id="announcementStatus">
+                                    <option value="published">Publikasikan</option>
+                                    <option value="draft">Simpan sebagai Draft</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="announcementDate" class="form-label">Tanggal <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="announcementDate" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-pmkri" id="saveNewAnnouncement">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Announcement Modal -->
+    <div class="modal fade" id="editAnnouncementModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Pengumuman</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editAnnouncementForm">
+                        <input type="hidden" id="editAnnouncementId">
+                        <div class="mb-3">
+                            <label for="editAnnouncementTitle" class="form-label">Judul Pengumuman <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editAnnouncementTitle" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editAnnouncementCategory" class="form-label">Kategori <span class="text-danger">*</span></label>
+                                <select class="form-select" id="editAnnouncementCategory" required>
+                                    <option value="" disabled>Pilih Kategori</option>
+                                    <option value="umum">Umum</option>
+                                    <option value="internal">Internal</option>
+                                    <option value="penting">Penting</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editAnnouncementAuthor" class="form-label">Penulis <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editAnnouncementAuthor" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editAnnouncementImage" class="form-label">Gambar Pengumuman</label>
+                            <input type="file" class="form-control" id="editAnnouncementImage" accept="image/*">
+                            <small class="text-muted">Biarkan kosong jika tidak ingin mengubah gambar</small>
+                            <div id="editImagePreviewContainer" class="mt-2">
+                                <img id="editImagePreview" class="preview-image" src="" alt="Preview">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editAnnouncementContent" class="form-label">Isi Pengumuman <span class="text-danger">*</span></label>
+                            <textarea id="editAnnouncementContent" class="form-control" rows="10" required></textarea>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editAnnouncementStatus" class="form-label">Status</label>
+                                <select class="form-select" id="editAnnouncementStatus">
+                                    <option value="published">Publikasikan</option>
+                                    <option value="draft">Simpan sebagai Draft</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editAnnouncementDate" class="form-label">Tanggal <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="editAnnouncementDate" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-pmkri" id="updateAnnouncement">Perbarui</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- View Announcement Modal -->
+    <div class="modal fade" id="viewAnnouncementModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Pengumuman</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <img id="detailAnnouncementImage" class="detail-image" src="" alt="Announcement Image">
+                    </div>
+                    <h3 id="detailAnnouncementTitle" class="mb-3"></h3>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>
+                            <span class="badge bg-primary me-2" id="detailAnnouncementCategory"></span>
+                            <span class="text-muted">Oleh: <span id="detailAnnouncementAuthor"></span></span>
+                        </div>
+                        <div>
+                            <span class="text-muted"><i class="far fa-calendar-alt me-1"></i> <span id="detailAnnouncementDate"></span></span>
+                        </div>
+                    </div>
+                    <div id="detailAnnouncementContent" class="mt-4"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-warning" id="editFromDetail" data-announcement-id="">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteAnnouncementModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="deleteAnnouncementId">
+                    <p>Apakah Anda yakin ingin menghapus pengumuman <strong id="deleteAnnouncementTitle"></strong>?</p>
+                    <p class="text-danger">Tindakan ini tidak dapat dibatalkan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    
+    <script>
+        // Sample data for announcements
+        let announcements = [
+            {
+                id: 1,
+                title: "Pengumuman Rapat Anggota Tahunan PMKRI Jakarta Pusat",
+                category: "internal",
+                author: "Sekretaris PMKRI",
+                date: "2025-05-10",
+                image: "https://via.placeholder.com/800x400?text=Rapat+Anggota",
+                content: "<p>Diberitahukan kepada seluruh anggota PMKRI Jakarta Pusat bahwa akan diadakan Rapat Anggota Tahunan pada:</p><p><strong>Hari/Tanggal:</strong> Sabtu, 10 Mei 2025<br><strong>Waktu:</strong> 09.00 - 15.00 WIB<br><strong>Tempat:</strong> Aula Gereja Katedral Jakarta</p><p>Agenda rapat meliputi:</p><ol><li>Laporan pertanggungjawaban pengurus periode 2024-2025</li><li>Pemilihan pengurus baru periode 2025-2026</li><li>Penyusunan program kerja periode 2025-2026</li></ol><p>Kehadiran Saudara/i sangat diharapkan. Mohon konfirmasi kehadiran paling lambat tanggal 5 Mei 2025.</p>",
+                status: "published"
+            },
+            {
+                id: 2,
+                title: "Pengumuman Penerimaan Beasiswa PMKRI 2025",
+                category: "umum",
+                author: "Bendahara PMKRI",
+                date: "2025-06-01",
+                image: "https://via.placeholder.com/800x400?text=Beasiswa",
+                content: "<p>PMKRI Jakarta Pusat membuka pendaftaran beasiswa untuk anggota aktif periode 2025. Beasiswa ini diperuntukkan bagi mahasiswa yang memiliki prestasi akademik dan aktif dalam kegiatan organisasi.</p><p><strong>Persyaratan:</strong></p><ul><li>Anggota aktif PMKRI Jakarta Pusat</li><li>IPK minimal 3.25</li><li>Aktif dalam kegiatan PMKRI minimal 1 tahun</li><li>Melampirkan surat keterangan tidak mampu (opsional)</li></ul><p><strong>Berkas yang harus dilampirkan:</strong></p><ul><li>Formulir pendaftaran</li><li>Fotokopi KTM</li><li>Transkrip nilai terakhir</li><li>Surat rekomendasi dari pengurus PMKRI</li></ul><p>Pendaftaran dibuka mulai tanggal 1-15 Juni 2025. Formulir dapat diunduh di website resmi PMKRI Jakarta Pusat.</p>",
+                status: "published"
+            },
+            {
+                id: 3,
+                title: "Pengumuman Perubahan Jadwal Kegiatan Bakti Sosial",
+                category: "penting",
+                author: "Koordinator Kegiatan",
+                date: "2025-04-15",
+                image: "https://via.placeholder.com/800x400?text=Perubahan+Jadwal",
+                content: "<p><strong>PERHATIAN!</strong></p><p>Diberitahukan kepada seluruh anggota PMKRI Jakarta Pusat bahwa kegiatan Bakti Sosial yang semula dijadwalkan pada tanggal 20 April 2025 diundur menjadi tanggal 27 April 2025 dikarenakan adanya kegiatan lain di lokasi yang sama.</p><p>Mohon maaf atas ketidaknyamanan ini. Bagi yang sudah mendaftar, pendaftaran tetap berlaku untuk jadwal yang baru. Jika ada pertanyaan, silakan hubungi panitia melalui nomor yang tertera di grup WhatsApp.</p><p>Terima kasih atas pengertiannya.</p>",
+                status: "published"
+            }
+        ];
+
+        // Variabel untuk pagination
+        const itemsPerPage = 10;
+        let currentPage = 1;
+        let filteredAnnouncements = [...announcements];
+
+        // DOM Elements
+        const announcementTable = document.getElementById('announcementTable');
+        const searchInput = document.getElementById('searchInput');
+        const pagination = document.getElementById('pagination');
+        const showingEntries = document.getElementById('showing-entries');
+        const totalEntries = document.getElementById('total-entries');
+
+        // Initialize Summernote editor
+        $(document).ready(function() {
+            $('#announcementContent').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+            
+            $('#editAnnouncementContent').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+
+        // Image preview for add form
+        document.getElementById('announcementImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imagePreviewContainer').classList.remove('d-none');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Image preview for edit form
+        document.getElementById('editAnnouncementImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('editImagePreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Render table data
+        function renderTable() {
+            const tableBody = announcementTable.querySelector('tbody');
+            tableBody.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredAnnouncements.length);
+            
+            if (filteredAnnouncements.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <i class="fas fa-search fa-2x mb-3 text-muted"></i>
+                            <p class="mb-0">Tidak ada data yang ditemukan</p>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                for (let i = startIndex; i < endIndex; i++) {
+                    const announcement = filteredAnnouncements[i];
+                    const row = document.createElement('tr');
+                    
+                    // Format date
+                    const date = new Date(announcement.date);
+                    const formattedDate = date.toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                    
+                    // Format category
+                    let categoryText = '';
+                    let categoryClass = '';
+                    
+                    switch(announcement.category) {
+                        case 'umum':
+                            categoryText = 'Umum';
+                            categoryClass = 'bg-info';
+                            break;
+                        case 'internal':
+                            categoryText = 'Internal';
+                            categoryClass = 'bg-primary';
+                            break;
+                        case 'penting':
+                            categoryText = 'Penting';
+                            categoryClass = 'bg-danger';
+                            break;
+                        default:
+                            categoryText = announcement.category;
+                            categoryClass = 'bg-secondary';
+                    }
+                    
+                    // Format status
+                    let statusText = '';
+                    let statusClass = '';
+                    
+                    switch(announcement.status) {
+                        case 'published':
+                            statusText = 'Dipublikasikan';
+                            statusClass = 'bg-success';
+                            break;
+                        case 'draft':
+                            statusText = 'Draft';
+                            statusClass = 'bg-warning text-dark';
+                            break;
+                        default:
+                            statusText = announcement.status;
+                            statusClass = 'bg-secondary';
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${i + 1}</td>
+                        <td><img src="${announcement.image}" alt="${announcement.title}" class="announcement-image"></td>
+                        <td>${announcement.title}</td>
+                        <td><span class="badge ${categoryClass}">${categoryText}</span></td>
+                        <td>${announcement.author}</td>
+                        <td>${formattedDate}</td>
+                        <td><span class="badge ${statusClass}">${statusText}</span></td>
+                        <td class="action-buttons">
+                            <button class="btn btn-sm btn-info view-btn" data-id="${announcement.id}" title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning edit-btn" data-id="${announcement.id}" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${announcement.id}" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                }
+            }
+            
+            // Update pagination info
+            showingEntries.textContent = filteredAnnouncements.length > 0 ? `${startIndex + 1}-${endIndex}` : '0';
+            totalEntries.textContent = filteredAnnouncements.length;
+            
+            // Render pagination
+            renderPagination();
+            
+            // Add event listeners to buttons
+            addButtonEventListeners();
+        }
+
+        // Render pagination
+        function renderPagination() {
+            pagination.innerHTML = '';
+            
+            const totalPages = Math.ceil(filteredAnnouncements.length / itemsPerPage);
+            
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>`;
+            pagination.appendChild(prevLi);
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                pagination.appendChild(li);
+            }
+            
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>`;
+            pagination.appendChild(nextLi);
+            
+            // Add event listeners to pagination
+            const pageLinks = pagination.querySelectorAll('.page-link');
+            pageLinks.forEach((link, index) => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    if (index === 0) {
+                        // Previous button
+                        if (currentPage > 1) {
+                            currentPage--;
+                            renderTable();
+                        }
+                    } else if (index === pageLinks.length - 1) {
+                        // Next button
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            renderTable();
+                        }
+                    } else {
+                        // Page number
+                        currentPage = index;
+                        renderTable();
+                    }
+                });
+            });
+        }
+
+        // Add event listeners to action buttons
+        function addButtonEventListeners() {
+            // View buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const announcementId = parseInt(btn.getAttribute('data-id'));
+                    viewAnnouncement(announcementId);
+                });
+            });
+            
+            // Edit buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const announcementId = parseInt(btn.getAttribute('data-id'));
+                    editAnnouncement(announcementId);
+                });
+            });
+            
+            // Delete buttons
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const announcementId = parseInt(btn.getAttribute('data-id'));
+                    confirmDelete(announcementId);
+                });
+            });
+        }
+
+        // View announcement details
+        function viewAnnouncement(id) {
+            const announcement = announcements.find(a => a.id === id);
+            if (announcement) {
+                document.getElementById('detailAnnouncementTitle').textContent = announcement.title;
+                document.getElementById('detailAnnouncementImage').src = announcement.image;
+                
+                // Format category
+                let categoryText = '';
+                let categoryClass = '';
+                
+                switch(announcement.category) {
+                    case 'umum':
+                        categoryText = 'Umum';
+                        categoryClass = 'bg-info';
+                        break;
+                    case 'internal':
+                        categoryText = 'Internal';
+                        categoryClass = 'bg-primary';
+                        break;
+                    case 'penting':
+                        categoryText = 'Penting';
+                        categoryClass = 'bg-danger';
+                        break;
+                    default:
+                        categoryText = announcement.category;
+                        categoryClass = 'bg-secondary';
+                }
+                
+                const categoryElement = document.getElementById('detailAnnouncementCategory');
+                categoryElement.textContent = categoryText;
+                categoryElement.className = `badge ${categoryClass}`;
+                
+                document.getElementById('detailAnnouncementAuthor').textContent = announcement.author;
+                
+                // Format date
+                const date = new Date(announcement.date);
+                const formattedDate = date.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                document.getElementById('detailAnnouncementDate').textContent = formattedDate;
+                document.getElementById('detailAnnouncementContent').innerHTML = announcement.content;
+                document.getElementById('editFromDetail').setAttribute('data-announcement-id', id);
+                
+                const viewModal = new bootstrap.Modal(document.getElementById('viewAnnouncementModal'));
+                viewModal.show();
+            }
+        }
+
+        // Edit announcement
+        function editAnnouncement(id) {
+            const announcement = announcements.find(a => a.id === id);
+            if (announcement) {
+                document.getElementById('editAnnouncementId').value = announcement.id;
+                document.getElementById('editAnnouncementTitle').value = announcement.title;
+                document.getElementById('editAnnouncementCategory').value = announcement.category;
+                document.getElementById('editAnnouncementAuthor').value = announcement.author;
+                document.getElementById('editAnnouncementDate').value = announcement.date;
+                document.getElementById('editAnnouncementStatus').value = announcement.status;
+                document.getElementById('editImagePreview').src = announcement.image;
+                
+                // Set Summernote content
+                $('#editAnnouncementContent').summernote('code', announcement.content);
+                
+                const editModal = new bootstrap.Modal(document.getElementById('editAnnouncementModal'));
+                editModal.show();
+            }
+        }
+
+        // Confirm delete
+        function confirmDelete(id) {
+            const announcement = announcements.find(a => a.id === id);
+            if (announcement) {
+                document.getElementById('deleteAnnouncementId').value = announcement.id;
+                document.getElementById('deleteAnnouncementTitle').textContent = announcement.title;
+                
+                const deleteModal = new bootstrap.Modal(document.getElementById('deleteAnnouncementModal'));
+                deleteModal.show();
+            }
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            filteredAnnouncements = announcements.filter(announcement => {
+                return (
+                    announcement.title.toLowerCase().includes(searchTerm) ||
+                    announcement.category.toLowerCase().includes(searchTerm) ||
+                    announcement.author.toLowerCase().includes(searchTerm)
+                );
+            });
+            currentPage = 1;
+            renderTable();
+        });
+
+        // Filter functionality
+        document.querySelectorAll('[data-filter]').forEach(filterBtn => {
+            filterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filterValue = filterBtn.getAttribute('data-filter');
+                
+                if (filterValue === 'all') {
+                    filteredAnnouncements = [...announcements];
+                } else {
+                    filteredAnnouncements = announcements.filter(announcement => announcement.category === filterValue);
+                }
+                
+                currentPage = 1;
+                renderTable();
+            });
+        });
+
+        // Save new announcement
+        document.getElementById('saveNewAnnouncement').addEventListener('click', () => {
+            const title = document.getElementById('announcementTitle').value;
+            const category = document.getElementById('announcementCategory').value;
+            const author = document.getElementById('announcementAuthor').value;
+            const date = document.getElementById('announcementDate').value;
+            const status = document.getElementById('announcementStatus').value;
+            const content = $('#announcementContent').summernote('code');
+            
+            // Get image from preview
+            const imagePreview = document.getElementById('imagePreview');
+            let image = '';
+            if (imagePreview.src) {
+                image = imagePreview.src;
+            } else {
+                image = 'https://via.placeholder.com/800x400?text=No+Image';
+            }
+            
+            // Validation
+            if (!title || !category || !author || !date || !content) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Create new announcement object
+            const newAnnouncement = {
+                id: announcements.length > 0 ? Math.max(...announcements.map(a => a.id)) + 1 : 1,
+                title: title,
+                category: category,
+                author: author,
+                date: date,
+                image: image,
+                content: content,
+                status: status
+            };
+            
+            // Add to announcements array
+            announcements.push(newAnnouncement);
+            filteredAnnouncements = [...announcements];
+            
+            // Reset form
+            document.getElementById('addAnnouncementForm').reset();
+            document.getElementById('imagePreviewContainer').classList.add('d-none');
+            $('#announcementContent').summernote('code', '');
+            
+            // Close modal
+            const addModal = bootstrap.Modal.getInstance(document.getElementById('addAnnouncementModal'));
+            addModal.hide();
+            
+            // Render table
+            renderTable();
+            
+            // Show success message
+            alert('Pengumuman berhasil ditambahkan!');
+        });
+
+        // Update announcement
+        document.getElementById('updateAnnouncement').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('editAnnouncementId').value);
+            const title = document.getElementById('editAnnouncementTitle').value;
+            const category = document.getElementById('editAnnouncementCategory').value;
+            const author = document.getElementById('editAnnouncementAuthor').value;
+            const date = document.getElementById('editAnnouncementDate').value;
+            const status = document.getElementById('editAnnouncementStatus').value;
+            const content = $('#editAnnouncementContent').summernote('code');
+            
+            // Get image
+            const imageInput = document.getElementById('editAnnouncementImage');
+            let image = document.getElementById('editImagePreview').src;
+            
+            // Validation
+            if (!title || !category || !author || !date || !content) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Find announcement index
+            const announcementIndex = announcements.findIndex(a => a.id === id);
+            if (announcementIndex !== -1) {
+                // Update announcement data
+                announcements[announcementIndex] = {
+                    ...announcements[announcementIndex],
+                    title: title,
+                    category: category,
+                    author: author,
+                    date: date,
+                    image: image,
+                    content: content,
+                    status: status
+                };
+                
+                // Update filtered announcements
+                filteredAnnouncements = [...announcements];
+                
+                // Close modal
+                const editModal = bootstrap.Modal.getInstance(document.getElementById('editAnnouncementModal'));
+                editModal.hide();
+                
+                // Render table
+                renderTable();
+                
+                // Show success message
+                alert('Pengumuman berhasil diperbarui!');
+            }
+        });
+
+        // Delete announcement
+        document.getElementById('confirmDelete').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('deleteAnnouncementId').value);
+            
+            // Find announcement index
+            const announcementIndex = announcements.findIndex(a => a.id === id);
+            if (announcementIndex !== -1) {
+                // Remove announcement
+                announcements.splice(announcementIndex, 1);
+                
+                // Update filtered announcements
+                filteredAnnouncements = [...announcements];
+                
+                // Close modal
+                const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteAnnouncementModal'));
+                deleteModal.hide();
+                
+                // Render table
+                renderTable();
+                
+                // Show success message
+                alert('Pengumuman berhasil dihapus!');
+            }
+        });
+
+        // Edit from detail view
+        document.getElementById('editFromDetail').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('editFromDetail').getAttribute('data-announcement-id'));
+            
+            // Close detail modal
+            const viewModal = bootstrap.Modal.getInstance(document.getElementById('viewAnnouncementModal'));
+            viewModal.hide();
+            
+            // Open edit modal
+            setTimeout(() => {
+                editAnnouncement(id);
+            }, 500);
+        });
+
+        // Initialize table
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default date to today for new announcement
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('announcementDate').value = today;
+            
+            renderTable();
+        });
+    </script>
+</body>
+</html>

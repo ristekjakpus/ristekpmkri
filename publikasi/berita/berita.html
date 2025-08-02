@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Berita - JAKPUSSIDATU</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Summernote CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --pmkri-blue: #3498DB;
+            --pmkri-red: #E74C3C;
+            --pmkri-yellow: #F1C40F;
+            --pmkri-orange: #E67E22;
+            --pmkri-green: #2ECC71;
+            --pmkri-light: #F9F9F9;
+            --pmkri-dark: #2C3E50;
+            --sidebar-width: 250px;
+            --navbar-height: 60px;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            height: var(--navbar-height);
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: var(--navbar-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--navbar-height));
+            background-color: white;
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            overflow-y: auto;
+            z-index: 900;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link {
+            color: var(--pmkri-dark);
+            padding: 10px 20px;
+            border-radius: 0;
+            transition: all 0.3s;
+        }
+        
+        .sidebar .nav-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--pmkri-blue);
+        }
+        
+        .sidebar .nav-link.active {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            padding-top: calc(var(--navbar-height) + 20px);
+            min-height: 100vh;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #eee;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .btn-pmkri {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-pmkri:hover {
+            background: linear-gradient(90deg, #2C81BA 0%, #2471A3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-yellow {
+            background: linear-gradient(90deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-yellow:hover {
+            background: linear-gradient(90deg, #F39C12 0%, #E67E22 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.4);
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+        
+        .search-box input {
+            padding-left: 40px;
+            border-radius: 20px;
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .table th {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            font-weight: 500;
+            border: none;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .action-buttons .btn {
+            margin-right: 5px;
+        }
+        
+        .action-buttons .btn:last-child {
+            margin-right: 0;
+        }
+        
+        .news-image {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .modal-header {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+        }
+        
+        .modal-header .btn-close {
+            color: white;
+            opacity: 0.8;
+        }
+        
+        .note-editor {
+            border-radius: 5px;
+        }
+        
+        .page-title {
+            position: relative;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--pmkri-blue);
+        }
+        
+        .page-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 70%;
+            width: 5px;
+            background: linear-gradient(180deg, var(--pmkri-yellow) 0%, var(--pmkri-orange) 100%);
+            border-radius: 5px;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .detail-image {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="logo-container bg-white rounded me-2 p-1">
+                    <img src="assets/img/logo.svg" alt="Logo PMKRI" class="logo">
+                </div>
+                <div>
+                    <span class="fw-bold">JAKPUSSIDATU</span>
+                    <span class="d-block small">PMKRI Jakarta Pusat</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell position-relative">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                            </i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Notifikasi 1</a></li>
+                            <li><a class="dropdown-item" href="#">Notifikasi 2</a></li>
+                            <li><a class="dropdown-item" href="#">Notifikasi 3</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="rounded-circle me-2" width="32" height="32">
+                            <span>Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Keluar</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="../../dashboard/dashboard.html">
+                    <i class="fas fa-tachometer-alt"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/datapmkri/datapmkri.html">
+                    <i class="fas fa-users"></i>Data PMKRI
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/datadpc/dpc.html">
+                    <i class="fas fa-user-tie"></i>Data DPC
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/datakmk/kmk.html">
+                    <i class="fas fa-church"></i>Data OMK
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../kegiatan/kegiatan.html">
+                    <i class="fas fa-calendar-alt"></i>Kegiatan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="../../publikasi/berita/berita.html">
+                    <i class="fas fa-newspaper"></i>Publikasi
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../../pages/keuangan/keuangan.html">
+                    <i class="fas fa-money-bill-wave"></i>Keuangan
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-cog"></i>Pengaturan
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Manajemen Berita</h1>
+        
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Daftar Berita</h5>
+                <button class="btn btn-pmkri" data-bs-toggle="modal" data-bs-target="#addNewsModal">
+                    <i class="fas fa-plus me-2"></i>Tambah Berita
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Cari judul, kategori, penulis...">
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                        <div class="btn-group">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-filter me-2"></i>Filter
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" data-filter="all">Semua Kategori</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="kegiatan">Kegiatan</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="pengumuman">Pengumuman</a></li>
+                                <li><a class="dropdown-item" href="#" data-filter="artikel">Artikel</a></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-outline-success ms-2">
+                            <i class="fas fa-file-excel me-2"></i>Export
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover" id="newsTable">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Gambar</th>
+                                <th>Judul</th>
+                                <th>Kategori</th>
+                                <th>Penulis</th>
+                                <th>Tanggal</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="row align-items-center mt-3">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <p class="mb-0">Menampilkan <span id="showing-entries">0</span> dari <span id="total-entries">0</span> data</p>
+                    </div>
+                    <div class="col-md-6">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-md-end" id="pagination">
+                                <!-- Pagination will be populated by JavaScript -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add News Modal -->
+    <div class="modal fade" id="addNewsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Berita Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addNewsForm">
+                        <div class="mb-3">
+                            <label for="newsTitle" class="form-label">Judul Berita <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="newsTitle" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="newsCategory" class="form-label">Kategori <span class="text-danger">*</span></label>
+                                <select class="form-select" id="newsCategory" required>
+                                    <option value="" selected disabled>Pilih Kategori</option>
+                                    <option value="kegiatan">Kegiatan</option>
+                                    <option value="pengumuman">Pengumuman</option>
+                                    <option value="artikel">Artikel</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="newsAuthor" class="form-label">Penulis <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="newsAuthor" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="newsImage" class="form-label">Gambar Berita <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" id="newsImage" accept="image/*" required>
+                            <div id="imagePreviewContainer" class="mt-2 d-none">
+                                <img id="imagePreview" class="preview-image" src="" alt="Preview">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="newsContent" class="form-label">Isi Berita <span class="text-danger">*</span></label>
+                            <textarea id="newsContent" class="form-control" rows="10" required></textarea>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="newsStatus" class="form-label">Status</label>
+                                <select class="form-select" id="newsStatus">
+                                    <option value="published">Publikasikan</option>
+                                    <option value="draft">Simpan sebagai Draft</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="newsDate" class="form-label">Tanggal <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="newsDate" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-pmkri" id="saveNewNews">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit News Modal -->
+    <div class="modal fade" id="editNewsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Berita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editNewsForm">
+                        <input type="hidden" id="editNewsId">
+                        <div class="mb-3">
+                            <label for="editNewsTitle" class="form-label">Judul Berita <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="editNewsTitle" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editNewsCategory" class="form-label">Kategori <span class="text-danger">*</span></label>
+                                <select class="form-select" id="editNewsCategory" required>
+                                    <option value="" disabled>Pilih Kategori</option>
+                                    <option value="kegiatan">Kegiatan</option>
+                                    <option value="pengumuman">Pengumuman</option>
+                                    <option value="artikel">Artikel</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editNewsAuthor" class="form-label">Penulis <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editNewsAuthor" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editNewsImage" class="form-label">Gambar Berita</label>
+                            <input type="file" class="form-control" id="editNewsImage" accept="image/*">
+                            <small class="text-muted">Biarkan kosong jika tidak ingin mengubah gambar</small>
+                            <div id="editImagePreviewContainer" class="mt-2">
+                                <img id="editImagePreview" class="preview-image" src="" alt="Preview">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editNewsContent" class="form-label">Isi Berita <span class="text-danger">*</span></label>
+                            <textarea id="editNewsContent" class="form-control" rows="10" required></textarea>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="editNewsStatus" class="form-label">Status</label>
+                                <select class="form-select" id="editNewsStatus">
+                                    <option value="published">Publikasikan</option>
+                                    <option value="draft">Simpan sebagai Draft</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="editNewsDate" class="form-label">Tanggal <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="editNewsDate" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-pmkri" id="updateNews">Perbarui</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- View News Modal -->
+    <div class="modal fade" id="viewNewsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Berita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <img id="detailNewsImage" class="detail-image" src="" alt="News Image">
+                    </div>
+                    <h3 id="detailNewsTitle" class="mb-3"></h3>
+                    <div class="d-flex justify-content-between mb-3">
+                        <div>
+                            <span class="badge bg-primary me-2" id="detailNewsCategory"></span>
+                            <span class="text-muted">Oleh: <span id="detailNewsAuthor"></span></span>
+                        </div>
+                        <div>
+                            <span class="text-muted"><i class="far fa-calendar-alt me-1"></i> <span id="detailNewsDate"></span></span>
+                        </div>
+                    </div>
+                    <div id="detailNewsContent" class="mt-4"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-warning" id="editFromDetail" data-news-id="">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteNewsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="deleteNewsId">
+                    <p>Apakah Anda yakin ingin menghapus berita <strong id="deleteNewsTitle"></strong>?</p>
+                    <p class="text-danger">Tindakan ini tidak dapat dibatalkan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    
+    <script>
+        // Sample data for news
+        let newsItems = [
+            {
+                id: 1,
+                title: "Kegiatan Bakti Sosial PMKRI Jakarta Pusat",
+                category: "kegiatan",
+                author: "Maria Angelina",
+                date: "2025-03-15",
+                image: "https://via.placeholder.com/800x400?text=Bakti+Sosial",
+                content: "<p>PMKRI Jakarta Pusat mengadakan kegiatan bakti sosial di Panti Asuhan Santa Maria pada tanggal 15 Maret 2025. Kegiatan ini dihadiri oleh seluruh anggota PMKRI Jakarta Pusat dan berhasil memberikan bantuan berupa sembako, pakaian, dan alat tulis kepada 50 anak panti.</p><p>Ketua PMKRI Jakarta Pusat, Antonius Setiawan, menyampaikan bahwa kegiatan ini merupakan bentuk kepedulian PMKRI terhadap sesama, terutama anak-anak yang membutuhkan perhatian dan kasih sayang.</p>",
+                status: "published"
+            },
+            {
+                id: 2,
+                title: "Pengumuman Pendaftaran Anggota Baru PMKRI",
+                category: "pengumuman",
+                author: "Yohanes Kristianto",
+                date: "2025-04-01",
+                image: "https://via.placeholder.com/800x400?text=Pendaftaran+Anggota",
+                content: "<p>PMKRI Jakarta Pusat membuka pendaftaran anggota baru untuk periode 2025-2026. Pendaftaran dibuka mulai tanggal 1 April hingga 30 April 2025.</p><p>Persyaratan pendaftaran:</p><ul><li>Mahasiswa aktif di perguruan tinggi Jakarta</li><li>Beragama Katolik</li><li>Memiliki komitmen untuk aktif dalam kegiatan PMKRI</li></ul><p>Formulir pendaftaran dapat diunduh di website resmi PMKRI Jakarta Pusat atau menghubungi pengurus PMKRI di kampus masing-masing.</p>",
+                status: "published"
+            },
+            {
+                id: 3,
+                title: "Artikel: Peran Mahasiswa Katolik dalam Pembangunan Bangsa",
+                category: "artikel",
+                author: "Stefanus Wijaya",
+                date: "2025-02-20",
+                image: "https://via.placeholder.com/800x400?text=Artikel+Mahasiswa",
+                content: "<p>Mahasiswa Katolik memiliki peran penting dalam pembangunan bangsa Indonesia. Sebagai kaum intelektual, mahasiswa Katolik dituntut untuk tidak hanya unggul dalam bidang akademik, tetapi juga memiliki kepedulian sosial dan semangat pelayanan.</p><p>PMKRI sebagai organisasi mahasiswa Katolik tertua di Indonesia telah membuktikan kontribusinya dalam berbagai bidang, mulai dari pendidikan, sosial, politik, hingga kebudayaan. Melalui berbagai kegiatan dan program kerja, PMKRI terus berupaya mencetak kader-kader yang berkualitas dan siap berkontribusi untuk bangsa dan negara.</p>",
+                status: "published"
+            }
+        ];
+
+        // Variabel untuk pagination
+        const itemsPerPage = 10;
+        let currentPage = 1;
+        let filteredNewsItems = [...newsItems];
+
+        // DOM Elements
+        const newsTable = document.getElementById('newsTable');
+        const searchInput = document.getElementById('searchInput');
+        const pagination = document.getElementById('pagination');
+        const showingEntries = document.getElementById('showing-entries');
+        const totalEntries = document.getElementById('total-entries');
+
+        // Initialize Summernote editor
+        $(document).ready(function() {
+            $('#newsContent').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+            
+            $('#editNewsContent').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+
+        // Image preview for add form
+        document.getElementById('newsImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imagePreviewContainer').classList.remove('d-none');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Image preview for edit form
+        document.getElementById('editNewsImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('editImagePreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Render table data
+        function renderTable() {
+            const tableBody = newsTable.querySelector('tbody');
+            tableBody.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredNewsItems.length);
+            
+            if (filteredNewsItems.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-4">
+                            <i class="fas fa-search fa-2x mb-3 text-muted"></i>
+                            <p class="mb-0">Tidak ada data yang ditemukan</p>
+                        </td>
+                    </tr>
+                `;
+            } else {
+                for (let i = startIndex; i < endIndex; i++) {
+                    const news = filteredNewsItems[i];
+                    const row = document.createElement('tr');
+                    
+                    // Format date
+                    const date = new Date(news.date);
+                    const formattedDate = date.toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                    
+                    // Format category
+                    let categoryText = '';
+                    let categoryClass = '';
+                    
+                    switch(news.category) {
+                        case 'kegiatan':
+                            categoryText = 'Kegiatan';
+                            categoryClass = 'bg-success';
+                            break;
+                        case 'pengumuman':
+                            categoryText = 'Pengumuman';
+                            categoryClass = 'bg-info';
+                            break;
+                        case 'artikel':
+                            categoryText = 'Artikel';
+                            categoryClass = 'bg-primary';
+                            break;
+                        default:
+                            categoryText = news.category;
+                            categoryClass = 'bg-secondary';
+                    }
+                    
+                    // Format status
+                    let statusText = '';
+                    let statusClass = '';
+                    
+                    switch(news.status) {
+                        case 'published':
+                            statusText = 'Dipublikasikan';
+                            statusClass = 'bg-success';
+                            break;
+                        case 'draft':
+                            statusText = 'Draft';
+                            statusClass = 'bg-warning text-dark';
+                            break;
+                        default:
+                            statusText = news.status;
+                            statusClass = 'bg-secondary';
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${i + 1}</td>
+                        <td><img src="${news.image}" alt="${news.title}" class="news-image"></td>
+                        <td>${news.title}</td>
+                        <td><span class="badge ${categoryClass}">${categoryText}</span></td>
+                        <td>${news.author}</td>
+                        <td>${formattedDate}</td>
+                        <td><span class="badge ${statusClass}">${statusText}</span></td>
+                        <td class="action-buttons">
+                            <button class="btn btn-sm btn-info view-btn" data-id="${news.id}" title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning edit-btn" data-id="${news.id}" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${news.id}" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                }
+            }
+            
+            // Update pagination info
+            showingEntries.textContent = filteredNewsItems.length > 0 ? `${startIndex + 1}-${endIndex}` : '0';
+            totalEntries.textContent = filteredNewsItems.length;
+            
+            // Render pagination
+            renderPagination();
+            
+            // Add event listeners to buttons
+            addButtonEventListeners();
+        }
+
+        // Render pagination
+        function renderPagination() {
+            pagination.innerHTML = '';
+            
+            const totalPages = Math.ceil(filteredNewsItems.length / itemsPerPage);
+            
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>`;
+            pagination.appendChild(prevLi);
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                pagination.appendChild(li);
+            }
+            
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>`;
+            pagination.appendChild(nextLi);
+            
+            // Add event listeners to pagination
+            const pageLinks = pagination.querySelectorAll('.page-link');
+            pageLinks.forEach((link, index) => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    if (index === 0) {
+                        // Previous button
+                        if (currentPage > 1) {
+                            currentPage--;
+                            renderTable();
+                        }
+                    } else if (index === pageLinks.length - 1) {
+                        // Next button
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            renderTable();
+                        }
+                    } else {
+                        // Page number
+                        currentPage = index;
+                        renderTable();
+                    }
+                });
+            });
+        }
+
+        // Add event listeners to action buttons
+        function addButtonEventListeners() {
+            // View buttons
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const newsId = parseInt(btn.getAttribute('data-id'));
+                    viewNews(newsId);
+                });
+            });
+            
+            // Edit buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const newsId = parseInt(btn.getAttribute('data-id'));
+                    editNews(newsId);
+                });
+            });
+            
+            // Delete buttons
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const newsId = parseInt(btn.getAttribute('data-id'));
+                    confirmDelete(newsId);
+                });
+            });
+        }
+
+        // View news details
+        function viewNews(id) {
+            const news = newsItems.find(n => n.id === id);
+            if (news) {
+                document.getElementById('detailNewsTitle').textContent = news.title;
+                document.getElementById('detailNewsImage').src = news.image;
+                
+                // Format category
+                let categoryText = '';
+                let categoryClass = '';
+                
+                switch(news.category) {
+                    case 'kegiatan':
+                        categoryText = 'Kegiatan';
+                        categoryClass = 'bg-success';
+                        break;
+                    case 'pengumuman':
+                        categoryText = 'Pengumuman';
+                        categoryClass = 'bg-info';
+                        break;
+                    case 'artikel':
+                        categoryText = 'Artikel';
+                        categoryClass = 'bg-primary';
+                        break;
+                    default:
+                        categoryText = news.category;
+                        categoryClass = 'bg-secondary';
+                }
+                
+                const categoryElement = document.getElementById('detailNewsCategory');
+                categoryElement.textContent = categoryText;
+                categoryElement.className = `badge ${categoryClass}`;
+                
+                document.getElementById('detailNewsAuthor').textContent = news.author;
+                
+                // Format date
+                const date = new Date(news.date);
+                const formattedDate = date.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                document.getElementById('detailNewsDate').textContent = formattedDate;
+                document.getElementById('detailNewsContent').innerHTML = news.content;
+                document.getElementById('editFromDetail').setAttribute('data-news-id', id);
+                
+                const viewModal = new bootstrap.Modal(document.getElementById('viewNewsModal'));
+                viewModal.show();
+            }
+        }
+
+        // Edit news
+        function editNews(id) {
+            const news = newsItems.find(n => n.id === id);
+            if (news) {
+                document.getElementById('editNewsId').value = news.id;
+                document.getElementById('editNewsTitle').value = news.title;
+                document.getElementById('editNewsCategory').value = news.category;
+                document.getElementById('editNewsAuthor').value = news.author;
+                document.getElementById('editNewsDate').value = news.date;
+                document.getElementById('editNewsStatus').value = news.status;
+                document.getElementById('editImagePreview').src = news.image;
+                
+                // Set Summernote content
+                $('#editNewsContent').summernote('code', news.content);
+                
+                const editModal = new bootstrap.Modal(document.getElementById('editNewsModal'));
+                editModal.show();
+            }
+        }
+
+        // Confirm delete
+        function confirmDelete(id) {
+            const news = newsItems.find(n => n.id === id);
+            if (news) {
+                document.getElementById('deleteNewsId').value = news.id;
+                document.getElementById('deleteNewsTitle').textContent = news.title;
+                
+                const deleteModal = new bootstrap.Modal(document.getElementById('deleteNewsModal'));
+                deleteModal.show();
+            }
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            filteredNewsItems = newsItems.filter(news => {
+                return (
+                    news.title.toLowerCase().includes(searchTerm) ||
+                    news.category.toLowerCase().includes(searchTerm) ||
+                    news.author.toLowerCase().includes(searchTerm)
+                );
+            });
+            currentPage = 1;
+            renderTable();
+        });
+
+        // Filter functionality
+        document.querySelectorAll('[data-filter]').forEach(filterBtn => {
+            filterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filterValue = filterBtn.getAttribute('data-filter');
+                
+                if (filterValue === 'all') {
+                    filteredNewsItems = [...newsItems];
+                } else {
+                    filteredNewsItems = newsItems.filter(news => news.category === filterValue);
+                }
+                
+                currentPage = 1;
+                renderTable();
+            });
+        });
+
+        // Save new news
+        document.getElementById('saveNewNews').addEventListener('click', () => {
+            const title = document.getElementById('newsTitle').value;
+            const category = document.getElementById('newsCategory').value;
+            const author = document.getElementById('newsAuthor').value;
+            const date = document.getElementById('newsDate').value;
+            const status = document.getElementById('newsStatus').value;
+            const content = $('#newsContent').summernote('code');
+            
+            // Get image from preview
+            const imagePreview = document.getElementById('imagePreview');
+            let image = '';
+            if (imagePreview.src) {
+                image = imagePreview.src;
+            } else {
+                image = 'https://via.placeholder.com/800x400?text=No+Image';
+            }
+            
+            // Validation
+            if (!title || !category || !author || !date || !content) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Create new news object
+            const newNews = {
+                id: newsItems.length > 0 ? Math.max(...newsItems.map(n => n.id)) + 1 : 1,
+                title: title,
+                category: category,
+                author: author,
+                date: date,
+                image: image,
+                content: content,
+                status: status
+            };
+            
+            // Add to news array
+            newsItems.push(newNews);
+            filteredNewsItems = [...newsItems];
+            
+            // Reset form
+            document.getElementById('addNewsForm').reset();
+            document.getElementById('imagePreviewContainer').classList.add('d-none');
+            $('#newsContent').summernote('code', '');
+            
+            // Close modal
+            const addModal = bootstrap.Modal.getInstance(document.getElementById('addNewsModal'));
+            addModal.hide();
+            
+            // Render table
+            renderTable();
+            
+            // Show success message
+            alert('Berita berhasil ditambahkan!');
+        });
+
+        // Update news
+        document.getElementById('updateNews').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('editNewsId').value);
+            const title = document.getElementById('editNewsTitle').value;
+            const category = document.getElementById('editNewsCategory').value;
+            const author = document.getElementById('editNewsAuthor').value;
+            const date = document.getElementById('editNewsDate').value;
+            const status = document.getElementById('editNewsStatus').value;
+            const content = $('#editNewsContent').summernote('code');
+            
+            // Get image
+            const imageInput = document.getElementById('editNewsImage');
+            let image = document.getElementById('editImagePreview').src;
+            
+            // Validation
+            if (!title || !category || !author || !date || !content) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+            
+            // Find news index
+            const newsIndex = newsItems.findIndex(n => n.id === id);
+            if (newsIndex !== -1) {
+                // Update news data
+                newsItems[newsIndex] = {
+                    ...newsItems[newsIndex],
+                    title: title,
+                    category: category,
+                    author: author,
+                    date: date,
+                    image: image,
+                    content: content,
+                    status: status
+                };
+                
+                // Update filtered news
+                filteredNewsItems = [...newsItems];
+                
+                // Close modal
+                const editModal = bootstrap.Modal.getInstance(document.getElementById('editNewsModal'));
+                editModal.hide();
+                
+                // Render table
+                renderTable();
+                
+                // Show success message
+                alert('Berita berhasil diperbarui!');
+            }
+        });
+
+        // Delete news
+        document.getElementById('confirmDelete').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('deleteNewsId').value);
+            
+            // Find news index
+            const newsIndex = newsItems.findIndex(n => n.id === id);
+            if (newsIndex !== -1) {
+                // Remove news
+                newsItems.splice(newsIndex, 1);
+                
+                // Update filtered news
+                filteredNewsItems = [...newsItems];
+                
+                // Close modal
+                const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteNewsModal'));
+                deleteModal.hide();
+                
+                // Render table
+                renderTable();
+                
+                // Show success message
+                alert('Berita berhasil dihapus!');
+            }
+        });
+
+        // Edit from detail view
+        document.getElementById('editFromDetail').addEventListener('click', () => {
+            const id = parseInt(document.getElementById('editFromDetail').getAttribute('data-news-id'));
+            
+            // Close detail modal
+            const viewModal = bootstrap.Modal.getInstance(document.getElementById('viewNewsModal'));
+            viewModal.hide();
+            
+            // Open edit modal
+            setTimeout(() => {
+                editNews(id);
+            }, 500);
+        });
+
+        // Initialize table
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default date to today for new news
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('newsDate').value = today;
+            
+            renderTable();
+        });
+    </script>
+</body>
+</html>

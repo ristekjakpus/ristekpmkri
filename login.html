@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - JAKPUSSIDATU PMKRI Jakarta Pusat</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pmkri-blue: #3498DB;
+            --pmkri-red: #E74C3C;
+            --pmkri-yellow: #F1C40F;
+            --pmkri-orange: #E67E22;
+            --pmkri-green: #2ECC71;
+            --pmkri-light: #F9F9F9;
+            --pmkri-dark: #2C3E50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .login-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .login-header {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            font-weight: 600;
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .system-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.85);
+        }
+
+        .login-body {
+            padding: 2rem;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--pmkri-blue);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+
+        .btn-pmkri {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 12px 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-pmkri:hover {
+            background: linear-gradient(90deg, #2C81BA 0%, #2471A3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .logo-container {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            height: 60px;
+        }
+
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-radius: 8px 0 0 8px !important;
+        }
+
+        .form-floating label {
+            padding: 0.8rem 1rem;
+        }
+
+        .form-floating>.form-control:focus~label,
+        .form-floating>.form-control:not(:placeholder-shown)~label,
+        .form-floating>.form-select~label {
+            transform: scale(0.85) translateY(-0.8rem) translateX(0.15rem);
+            color: var(--pmkri-blue);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--pmkri-dark);
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: var(--pmkri-blue);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo-container">
+                        <img src="assets/img/logo.svg" alt="Logo PMKRI" class="logo">
+                    </div>
+                    <div class="system-title">JAKPUSSIDATU</div>
+                    <div class="subtitle">PMKRI Cabang Jakarta Pusat</div>
+                </div>
+                <div class="login-body">
+                    <form id="loginForm">
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="username" placeholder="Username" required>
+                                <label for="username"><i class="fas fa-user me-2"></i>Username</label>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                                <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Ingat saya</label>
+                            <a href="#" class="float-end text-decoration-none" style="color: var(--pmkri-blue);">Lupa password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-pmkri mb-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>MASUK
+                        </button>
+                        <div class="text-center mt-3">
+                            <p class="mb-0">Belum punya akun? <a href="#" style="color: var(--pmkri-blue);">Hubungi Administrator</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="footer">
+                <p>© 2025 PMKRI Jakarta Pusat. Hak Cipta Dilindungi. <br> Versi 1.0.0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simple validation
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if(username === '' || password === '') {
+                    alert('Username dan password harus diisi!');
+                    return;
+                }
+                
+                // Redirect langsung ke dashboard/dashboard.html
+                window.location.href = 'dashboard/dashboard.html';
+                
+                // Untuk implementasi nyata, seharusnya:
+                // 1. Kirim data ke server untuk verifikasi
+                // 2. Jika sukses, redirect ke dashboard
+                // 3. Jika gagal, tampilkan pesan error
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - JAKPUSSIDATU PMKRI Jakarta Pusat</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pmkri-blue: #3498DB;
+            --pmkri-red: #E74C3C;
+            --pmkri-yellow: #F1C40F;
+            --pmkri-orange: #E67E22;
+            --pmkri-green: #2ECC71;
+            --pmkri-light: #F9F9F9;
+            --pmkri-dark: #2C3E50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logout-container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .logout-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            text-align: center;
+        }
+
+        .logout-header {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            font-weight: 600;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .system-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logout-body {
+            padding: 2.5rem;
+        }
+
+        .logout-icon {
+            font-size: 4rem;
+            color: var(--pmkri-blue);
+            margin-bottom: 1.5rem;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .btn-pmkri {
+            background: linear-gradient(90deg, var(--pmkri-blue) 0%, #2980B9 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 12px 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+            margin: 1rem auto 0;
+        }
+
+        .btn-pmkri:hover {
+            background: linear-gradient(90deg, #2C81BA 0%, #2471A3 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--pmkri-dark);
+            font-size: 0.9rem;
+        }
+
+        .logo {
+            height: 60px;
+            margin-bottom: 1rem;
+        }
+
+        .countdown {
+            color: var(--pmkri-blue);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logout-container">
+            <div class="logout-card">
+                <div class="logout-header">
+                    <img src="assets/img/logo.svg" alt="Logo PMKRI" class="logo">
+                    <div class="system-title">JAKPUSSIDATU</div>
+                </div>
+                <div class="logout-body">
+                    <div class="logout-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <h3 class="mb-3">Anda telah logout</h3>
+                    <p class="mb-4">Terima kasih telah menggunakan Sistem Data Terpadu PMKRI Jakarta Pusat.</p>
+                    <p class="mb-4">Anda akan diarahkan ke halaman login dalam <span class="countdown">5</span> detik...</p>
+                    <a href="login.html" class="btn btn-pmkri">
+                        <i class="fas fa-sign-in-alt me-2"></i>LOGIN KEMBALI
+                    </a>
+                </div>
+            </div>
+            <div class="footer">
+                <p>© 2025 PMKRI Jakarta Pusat. Hak Cipta Dilindungi. <br> Versi 1.0.0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Countdown timer
+            let seconds = 5;
+            const countdownElement = document.querySelector('.countdown');
+            
+            const countdown = setInterval(function() {
+                seconds--;
+                countdownElement.textContent = seconds;
+                
+                if (seconds <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = 'login.html';
+                }
+            }, 1000);
+
+            // In a real application, you would also:
+            // 1. Clear any session cookies/tokens
+            // 2. Send a logout request to the server
+            // 3. Then redirect to login page
+        });
+    </script>
+</body>
+</html>
